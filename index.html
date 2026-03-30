@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Digital Kita — Web & App Studio</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Epilogue:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg: '#0A0A0A',
+        surface: '#111111',
+        surface2: '#181818',
+        orange: { DEFAULT: '#F26419', light: '#FF8C42', dim: 'rgba(242,100,25,0.12)' },
+        ink: { DEFAULT: '#F0EDE8', muted: '#7A7672' },
+      },
+      fontFamily: {
+        syne: ['Syne', 'sans-serif'],
+        epi: ['Epilogue', 'sans-serif'],
+      },
+    }
+  }
+}
+</script>
+<style>
+  body { font-family: 'Epilogue', sans-serif; background: #0A0A0A; color: #F0EDE8; overflow-x: hidden; }
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-thumb { background: #F26419; border-radius: 2px; }
+
+  /* Grid background */
+  .grid-bg {
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  /* Noise overlay */
+  .noise::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; opacity: 0.4;
+  }
+
+  /* Magnetic cursor blob */
+  .cursor-blob {
+    position: fixed; width: 300px; height: 300px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(242,100,25,0.08) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+    transform: translate(-50%, -50%);
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  /* Clip path reveal */
+  .clip-reveal { clip-path: inset(0 100% 0 0); }
+  .clip-reveal.active { clip-path: inset(0 0% 0 0); transition: clip-path 0.8s cubic-bezier(0.76, 0, 0.24, 1); }
+
+  /* Orange line accent */
+  .line-accent { height: 1px; background: linear-gradient(90deg, #F26419, transparent); }
+
+  /* Text split animation */
+  .char { display: inline-block; will-change: transform, opacity; }
+
+  /* Marquee */
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .marquee-inner { animation: marquee 20s linear infinite; display: flex; width: max-content; }
+  .client-marquee { animation: marquee 30s linear infinite; display: flex; width: max-content; }
+
+  /* Hover link underline */
+  .hover-line { position: relative; }
+  .hover-line::after {
+    content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px;
+    background: #F26419; transition: width 0.3s ease;
+  }
+  .hover-line:hover::after { width: 100%; }
+
+  /* Card tilt */
+  .tilt-card { transition: transform 0.3s ease; transform-style: preserve-3d; }
+
+  /* Gradient text */
+  .gradient-text {
+    background: linear-gradient(135deg, #F0EDE8 0%, #F26419 60%, #FF8C42 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+
+  /* Glow border on hover */
+  .glow-border { transition: box-shadow 0.3s ease, border-color 0.3s ease; }
+  .glow-border:hover { border-color: rgba(242,100,25,0.4) !important; box-shadow: 0 0 24px rgba(242,100,25,0.08); }
+
+  /* Stagger children */
+  .stagger > * { opacity: 0; transform: translateY(20px); }
+
+  /* Number counter */
+  .count-up { font-variant-numeric: tabular-nums; }
+
+  /* Blob shape */
+  .blob {
+    position: absolute; border-radius: 50%;
+    background: radial-gradient(circle, rgba(242,100,25,0.18) 0%, transparent 65%);
+    filter: blur(40px); pointer-events: none;
+  }
+
+  /* Testimonial columns scroll */
+  .testi-mask {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
+  }
+  @keyframes scrollUp   { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+  @keyframes scrollDown { from { transform: translateY(-50%); } to { transform: translateY(0); } }
+  .testi-col-1 { animation: scrollUp   18s linear infinite; }
+  .testi-col-2 { animation: scrollDown 22s linear infinite; }
+  .testi-col-3 { animation: scrollUp   16s linear infinite; }
+  .testi-col-1:hover, .testi-col-2:hover, .testi-col-3:hover { animation-play-state: paused; }
+
+  /* Nav shrink */
+  nav.shrunk { padding-top: 10px !important; padding-bottom: 10px !important; }
+  @media (min-width: 768px) {
+    nav.shrunk { max-width: 860px; margin-left: auto; margin-right: auto; border-radius: 12px; top: 12px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+  }
+</style>
+</head>
+<body class="noise">
+
+<div class="cursor-blob" id="cursorBlob"></div>
+
+<!-- ── NAV ── -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-10 py-4 md:py-5 border-b border-white/5 bg-bg/80 backdrop-blur-xl transition-all duration-300 ease-out">
+  <a href="index.html" class="font-syne font-extrabold text-lg tracking-tight">
+    Digital<span class="text-orange">Kita</span>
+  </a>
+  <!-- Desktop -->
+  <ul class="hidden md:flex items-center gap-6 list-none">
+    <li><a href="services.html" class="text-ink-muted text-sm hover-line hover:text-ink transition-colors">Services</a></li>
+    <li><a href="work.html" class="text-ink-muted text-sm hover-line hover:text-ink transition-colors">Our Work</a></li>
+    <li><a href="about.html" class="text-ink-muted text-sm hover-line hover:text-ink transition-colors">About</a></li>
+    <li>
+      <a href="contact.html" class="text-sm px-5 py-2 bg-orange text-white rounded-full font-medium hover:bg-orange-light transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-orange/25">
+        Get in Touch
+      </a>
+    </li>
+  </ul>
+  <!-- Mobile hamburger -->
+  <button id="menuBtn" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="Menu">
+    <span class="w-6 h-px bg-ink block transition-all duration-300 ease-out" id="m1"></span>
+    <span class="w-6 h-px bg-ink block transition-all duration-300 ease-out" id="m2"></span>
+    <span class="w-4 h-px bg-orange block transition-all duration-300 ease-out" id="m3"></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobileMenu" class="fixed inset-0 z-40 bg-bg/95 backdrop-blur-xl flex flex-col justify-center items-center gap-8 hidden">
+  <a href="services.html" class="font-syne text-3xl font-bold hover:text-orange transition-colors">Services</a>
+  <a href="work.html" class="font-syne text-3xl font-bold hover:text-orange transition-colors">Our Work</a>
+  <a href="about.html" class="font-syne text-3xl font-bold hover:text-orange transition-colors">About</a>
+  <a href="contact.html" class="mt-4 px-8 py-3 bg-orange text-white rounded font-medium text-lg">Get in Touch</a>
+</div>
+
+<!-- ── HERO ── -->
+<section class="relative min-h-screen grid-bg overflow-hidden pt-20">
+  <!-- Blobs -->
+  <div class="blob w-[600px] h-[600px] top-[-150px] right-[-150px] opacity-50"></div>
+  <div class="blob w-[350px] h-[350px] bottom-[5%] left-[-80px] opacity-30"></div>
+  <!-- Bg image with gradient mask -->
+  <div class="absolute inset-0 z-0 opacity-20"
+    style="background-image:url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1600&q=80');background-size:cover;background-position:center;
+    -webkit-mask-image:linear-gradient(180deg,transparent,black 20%,black 70%,transparent);
+    mask-image:linear-gradient(180deg,transparent,black 20%,black 70%,transparent)"></div>
+
+  <div class="relative z-10 mx-auto max-w-7xl px-6 md:px-12 pt-16 pb-16 md:pt-24">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+
+      <!-- LEFT -->
+      <div class="lg:col-span-7 flex flex-col gap-7 pt-4">
+        <!-- Badge -->
+        <div id="heroTag" class="opacity-0 inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-md">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-orange"></span>
+          </span>
+          <span class="text-xs font-semibold uppercase tracking-widest text-ink/70">Web & App Development Studio</span>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="font-syne font-extrabold leading-[0.92] tracking-tight"
+            style="font-size:clamp(2.6rem,5.5vw,5.5rem);-webkit-mask-image:linear-gradient(180deg,black 0%,black 80%,transparent 100%);mask-image:linear-gradient(180deg,black 0%,black 80%,transparent 100%)">
+          <span class="block overflow-hidden"><span id="h1l1" class="block opacity-0 translate-y-full">Crafting</span></span>
+          <span class="block overflow-hidden"><span id="h1l2" class="block opacity-0 translate-y-full"><span class="text-orange">Digital</span> Products</span></span>
+          <span class="block overflow-hidden"><span id="h1l3" class="block opacity-0 translate-y-full text-ink-muted" style="font-size:clamp(2rem,4vw,4rem)">That Actually Work.</span></span>
+        </h1>
+
+        <!-- Sub -->
+        <p id="heroSub" class="opacity-0 text-ink-muted font-light leading-relaxed max-w-lg" style="font-size:clamp(0.95rem,1.4vw,1.1rem)">
+          Digital Kita crafts high-performance websites and mobile apps — from UMKM landing pages to full-scale platforms. Clean code, sharp design, real results.
+        </p>
+
+        <!-- CTAs -->
+        <div id="heroCtas" class="opacity-0 flex flex-col sm:flex-row gap-4">
+          <a href="work.html" class="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-semibold text-zinc-950 transition-all hover:scale-[1.02] hover:bg-orange hover:text-white active:scale-[0.98]">
+            View Our Work
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+          <a href="contact.html" class="group inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-8 py-4 text-sm font-semibold text-white backdrop-blur-sm hover:bg-white/10 hover:border-white/20 transition-all">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+            Start a Project
+          </a>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div id="scrollInd" class="opacity-0 flex items-center gap-4 mt-2">
+          <div class="w-10 h-px bg-gradient-to-r from-orange to-transparent"></div>
+          <span class="text-ink-muted text-xs tracking-widest uppercase">Scroll to explore</span>
+        </div>
+      </div>
+
+      <!-- RIGHT — Glassmorphism cards -->
+      <div class="lg:col-span-5 flex flex-col gap-5 lg:mt-8">
+
+        <!-- Stats card -->
+        <div id="heroCard1" class="opacity-0 relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur-xl shadow-2xl">
+          <div class="absolute top-0 right-0 -mr-16 -mt-16 h-56 w-56 rounded-full bg-orange/10 blur-3xl pointer-events-none"></div>
+          <div class="relative z-10">
+            <!-- Top stat -->
+            <div class="flex items-center gap-4 mb-7">
+              <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-orange/15 ring-1 ring-orange/30">
+                <svg class="w-6 h-6 text-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+              </div>
+              <div>
+                <div class="font-syne font-extrabold text-3xl text-white tracking-tight">25+</div>
+                <div class="text-sm text-ink-muted font-light">Projects Delivered</div>
+              </div>
+            </div>
+            <!-- Progress -->
+            <div class="space-y-2 mb-7">
+              <div class="flex justify-between text-sm">
+                <span class="text-ink-muted font-light">Client Satisfaction</span>
+                <span class="text-white font-medium">98%</span>
+              </div>
+              <div class="h-2 w-full overflow-hidden rounded-full bg-white/10">
+                <div class="h-full w-[98%] rounded-full bg-gradient-to-r from-orange to-orange-light"></div>
+              </div>
+            </div>
+            <div class="h-px w-full bg-white/10 mb-5"></div>
+            <!-- Mini stats -->
+            <div class="grid grid-cols-3 gap-4 text-center">
+              <div class="flex flex-col items-center hover:-translate-y-1 transition-transform cursor-default">
+                <span class="font-syne font-bold text-xl text-white">3+</span>
+                <span class="text-[10px] uppercase tracking-wider text-ink-muted font-medium">Years</span>
+              </div>
+              <div class="w-px h-full bg-white/10 mx-auto"></div>
+              <div class="flex flex-col items-center hover:-translate-y-1 transition-transform cursor-default">
+                <span class="font-syne font-bold text-xl text-white">24/7</span>
+                <span class="text-[10px] uppercase tracking-wider text-ink-muted font-medium">Support</span>
+              </div>
+              <div class="w-px h-full bg-white/10 mx-auto"></div>
+              <div class="flex flex-col items-center hover:-translate-y-1 transition-transform cursor-default">
+                <span class="font-syne font-bold text-xl text-white">100%</span>
+                <span class="text-[10px] uppercase tracking-wider text-ink-muted font-medium">Quality</span>
+              </div>
+            </div>
+            <!-- Tags -->
+            <div class="mt-6 flex flex-wrap gap-2">
+              <div class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-medium tracking-wide text-ink/70">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                </span>
+                AVAILABLE FOR PROJECTS
+              </div>
+              <div class="inline-flex items-center gap-1.5 rounded-full border border-orange/20 bg-orange/10 px-3 py-1 text-[10px] font-medium tracking-wide text-orange">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                TOP RATED
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Client marquee card -->
+        <div id="heroCard2" class="opacity-0 relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 py-7 backdrop-blur-xl">
+          <h3 class="mb-5 px-7 text-xs font-medium text-ink-muted uppercase tracking-widest">Trusted by clients across Indonesia</h3>
+          <div class="relative flex overflow-hidden"
+            style="-webkit-mask-image:linear-gradient(to right,transparent,black 20%,black 80%,transparent);mask-image:linear-gradient(to right,transparent,black 20%,black 80%,transparent)">
+            <div class="client-marquee flex gap-10 whitespace-nowrap px-4">
+              <span class="text-ink-muted font-semibold text-sm opacity-50 hover:opacity-100 transition-opacity">🏪 UMKM Batik</span>
+              <span class="text-orange/50 px-1">✦</span>
+              <span class="text-ink-muted font-semibold text-sm opacity-50 hover:opacity-100 transition-opacity">🕌 Islamic Tech</span>
+              <span class="text-orange/50 px-1">✦</span>
+              <span class="text-ink-muted font-semibold text-sm opacity-50 hover:opacity-100 transition-opacity">🏔️ Wisata Krebet</span>
+              <span class="text-orange/50 px-1">✦</span>
+              <span class="text-ink-muted font-semibold text-sm opacity-50 hover:opacity-100 transition-opacity">🎓 UNY Yogyakarta</span>
+              <span class="text-orange/50 px-1">✦</span>
+              <span class="text-ink-muted font-semibold text-sm opacity-50 hover:opacity-100 transition-opacity">🛍️ Toko Online</span>
+              <span class="text-orange/50 px-1">✦</span>
+              <!-- repeat -->
+              <span class="text-ink-muted font-semibold text-sm opacity-50 hover:opacity-100 transition-opacity">🏪 UMKM Batik</span>
+              <span class="text-orange/50 px-1">✦</span>
+              <span class="text-ink-muted font-semibold text-sm opacity-50 hover:opacity-100 transition-opacity">🕌 Islamic Tech</span>
+              <span class="text-orange/50 px-1">✦</span>
+              <span class="text-ink-muted font-semibold text-sm opacity-50 hover:opacity-100 transition-opacity">🏔️ Wisata Krebet</span>
+              <span class="text-orange/50 px-1">✦</span>
+              <span class="text-ink-muted font-semibold text-sm opacity-50 hover:opacity-100 transition-opacity">🎓 UNY Yogyakarta</span>
+              <span class="text-orange/50 px-1">✦</span>
+              <span class="text-ink-muted font-semibold text-sm opacity-50 hover:opacity-100 transition-opacity">🛍️ Toko Online</span>
+              <span class="text-orange/50 px-1">✦</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MARQUEE ── -->
+<div class="border-y border-white/5 py-4 overflow-hidden bg-surface">
+  <div class="marquee-inner text-ink-muted text-sm font-light tracking-widest uppercase">
+    <span class="px-8">Web Development</span><span class="text-orange px-2">✦</span>
+    <span class="px-8">App Development</span><span class="text-orange px-2">✦</span>
+    <span class="px-8">UI/UX Design</span><span class="text-orange px-2">✦</span>
+    <span class="px-8">UMKM Solutions</span><span class="text-orange px-2">✦</span>
+    <span class="px-8">Backend & API</span><span class="text-orange px-2">✦</span>
+    <span class="px-8">Digital Products</span><span class="text-orange px-2">✦</span>
+    <span class="px-8">Web Development</span><span class="text-orange px-2">✦</span>
+    <span class="px-8">App Development</span><span class="text-orange px-2">✦</span>
+    <span class="px-8">UI/UX Design</span><span class="text-orange px-2">✦</span>
+    <span class="px-8">UMKM Solutions</span><span class="text-orange px-2">✦</span>
+    <span class="px-8">Backend & API</span><span class="text-orange px-2">✦</span>
+    <span class="px-8">Digital Products</span><span class="text-orange px-2">✦</span>
+  </div>
+</div>
+
+<!-- ── STATS ── -->
+<section class="py-20 px-6 md:px-12 lg:px-20">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5 border border-white/5 rounded-xl overflow-hidden">
+    <div class="stat-item bg-surface p-8 md:p-10">
+      <p class="font-syne font-extrabold text-4xl md:text-5xl tracking-tight mb-2 count-up" data-target="25">0<span class="text-orange">+</span></p>
+      <p class="text-ink-muted text-sm font-light">Projects Delivered</p>
+    </div>
+    <div class="stat-item bg-surface p-8 md:p-10">
+      <p class="font-syne font-extrabold text-4xl md:text-5xl tracking-tight mb-2 count-up" data-target="20">0<span class="text-orange">+</span></p>
+      <p class="text-ink-muted text-sm font-light">Happy Clients</p>
+    </div>
+    <div class="stat-item bg-surface p-8 md:p-10">
+      <p class="font-syne font-extrabold text-4xl md:text-5xl tracking-tight mb-2 count-up" data-target="3">0<span class="text-orange">+</span></p>
+      <p class="text-ink-muted text-sm font-light">Years Experience</p>
+    </div>
+    <div class="stat-item bg-surface p-8 md:p-10">
+      <p class="font-syne font-extrabold text-4xl md:text-5xl tracking-tight mb-2 count-up" data-target="100">0<span class="text-orange">%</span></p>
+      <p class="text-ink-muted text-sm font-light">Client Satisfaction</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES PREVIEW ── -->
+<section class="py-16 px-6 md:px-12 lg:px-20 border-t border-white/5">
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+    <div>
+      <p class="flex items-center gap-3 text-orange text-xs font-medium tracking-widest uppercase mb-3">
+        <span class="w-6 h-px bg-orange inline-block"></span>What We Do
+      </p>
+      <h2 class="font-syne font-bold leading-tight tracking-tight gsap-fadeup"
+          style="font-size: clamp(2rem, 4vw, 3.5rem);">
+        Built for the<br/><span class="text-orange">digital era.</span>
+      </h2>
+    </div>
+    <a href="services.html" class="group inline-flex items-center gap-2 text-sm text-ink-muted border border-white/10 px-5 py-2.5 rounded hover:border-orange/40 hover:text-ink transition-all self-start md:self-auto gsap-fadeup">
+      All Services
+      <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+    </a>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <!-- Service cards -->
+    <div class="service-card gsap-fadeup group border border-white/5 bg-surface rounded-xl p-7 glow-border cursor-pointer relative overflow-hidden">
+      <div class="absolute inset-x-0 bottom-0 h-0.5 bg-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+      <span class="text-ink-muted/20 font-syne font-bold text-xs tracking-widest absolute top-5 right-6">01</span>
+      <div class="w-10 h-10 rounded-lg bg-orange/10 border border-orange/20 flex items-center justify-center mb-5 text-lg">🌐</div>
+      <h3 class="font-syne font-bold text-base mb-2.5">Web Development</h3>
+      <p class="text-ink-muted text-sm font-light leading-relaxed">Responsive, fast websites built with modern frameworks. From company profiles to e-commerce.</p>
+      <div class="flex flex-wrap gap-1.5 mt-4">
+        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">React</span>
+        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">Next.js</span>
+        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">Laravel</span>
+      </div>
+    </div>
+    <div class="service-card gsap-fadeup group border border-white/5 bg-surface rounded-xl p-7 glow-border cursor-pointer relative overflow-hidden">
+      <div class="absolute inset-x-0 bottom-0 h-0.5 bg-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+      <span class="text-ink-muted/20 font-syne font-bold text-xs tracking-widest absolute top-5 right-6">02</span>
+      <div class="w-10 h-10 rounded-lg bg-orange/10 border border-orange/20 flex items-center justify-center mb-5 text-lg">📱</div>
+      <h3 class="font-syne font-bold text-base mb-2.5">App Development</h3>
+      <p class="text-ink-muted text-sm font-light leading-relaxed">Cross-platform mobile apps that work beautifully on iOS and Android without the double cost.</p>
+      <div class="flex flex-wrap gap-1.5 mt-4">
+        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">Flutter</span>
+        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">React Native</span>
+      </div>
+    </div>
+    <div class="service-card gsap-fadeup group border border-white/5 bg-surface rounded-xl p-7 glow-border cursor-pointer relative overflow-hidden">
+      <div class="absolute inset-x-0 bottom-0 h-0.5 bg-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+      <span class="text-ink-muted/20 font-syne font-bold text-xs tracking-widest absolute top-5 right-6">03</span>
+      <div class="w-10 h-10 rounded-lg bg-orange/10 border border-orange/20 flex items-center justify-center mb-5 text-lg">🎨</div>
+      <h3 class="font-syne font-bold text-base mb-2.5">UI/UX Design</h3>
+      <p class="text-ink-muted text-sm font-light leading-relaxed">Interfaces people actually enjoy using. Designed with both aesthetics and conversion in mind.</p>
+      <div class="flex flex-wrap gap-1.5 mt-4">
+        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">Figma</span>
+        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">Prototyping</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WORK PREVIEW ── -->
+<section class="py-16 px-6 md:px-12 lg:px-20 bg-surface border-t border-white/5">
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+    <div>
+      <p class="flex items-center gap-3 text-orange text-xs font-medium tracking-widest uppercase mb-3">
+        <span class="w-6 h-px bg-orange inline-block"></span>Our Work
+      </p>
+      <h2 class="font-syne font-bold leading-tight tracking-tight gsap-fadeup"
+          style="font-size: clamp(2rem, 4vw, 3.5rem);">Selected<br/><span class="text-orange">Projects.</span></h2>
+    </div>
+    <a href="work.html" class="group inline-flex items-center gap-2 text-sm text-ink-muted border border-white/10 px-5 py-2.5 rounded hover:border-orange/40 hover:text-ink transition-all self-start md:self-auto">
+      All Projects
+      <svg class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+    </a>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+    <!-- Featured -->
+    <a href="work.html" class="group gsap-fadeup md:col-span-7 border border-white/5 rounded-xl overflow-hidden bg-bg glow-border block">
+      <div class="aspect-video bg-surface2 flex items-center justify-center relative overflow-hidden">
+        <img src="assets/project/sholat-reminder.png" alt="">
+        <!-- <div class="w-16 h-16 rounded-2xl bg-orange/10 border border-orange/20 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-500">🕌</div> -->
+        <div class="absolute inset-0 bg-gradient-to-t from-bg/60 to-transparent"></div>
+      </div>
+      <div class="p-6">
+        <p class="text-orange text-[11px] font-medium tracking-widest uppercase mb-2">Web App · Islamic Tech</p>
+        <h3 class="font-syne font-bold text-lg mb-2 group-hover:text-orange transition-colors">Solusi Digital Pengingat Sholat</h3>
+        <p class="text-ink-muted text-sm font-light">WhatsApp-based prayer time notification system serving thousands of daily users.</p>
+        <p class="inline-flex items-center gap-1.5 text-orange text-xs mt-4 font-medium group-hover:gap-2.5 transition-all">View Project <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></p>
+      </div>
+    </a>
+
+    <div class="md:col-span-5 flex flex-col gap-4">
+      <a href="work.html" class="group gsap-fadeup border border-white/5 rounded-xl overflow-hidden bg-bg glow-border block flex-1">
+        <div class="h-36 bg-surface2 flex items-center justify-center relative overflow-hidden">
+          <div class="w-12 h-12 rounded-xl bg-orange/10 border border-orange/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-500">🏔️</div>
+        </div>
+        <div class="p-5">
+          <p class="text-orange text-[11px] font-medium tracking-widest uppercase mb-1.5">Tourism · Website</p>
+          <h3 class="font-syne font-bold text-base group-hover:text-orange transition-colors">Sistem Informasi Wisata</h3>
+          <p class="text-ink-muted text-xs font-light mt-1.5">Digital tourism platform for local attractions.</p>
+        </div>
+      </a>
+      <a href="work.html" class="group gsap-fadeup border border-white/5 rounded-xl overflow-hidden bg-bg glow-border block flex-1">
+        <div class="h-36 bg-surface2 flex items-center justify-center relative overflow-hidden">
+        <img src="assets/project/krebet.png" alt="">
+          <!-- <div class="w-12 h-12 rounded-xl bg-orange/10 border border-orange/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-500">🎟️</div> -->
+        </div>
+        <div class="p-5">
+          <p class="text-orange text-[11px] font-medium tracking-widest uppercase mb-1.5">Booking · Platform</p>
+          <h3 class="font-syne font-bold text-base group-hover:text-orange transition-colors">Platform Booking Wisata Krebet</h3>
+          <p class="text-ink-muted text-xs font-light mt-1.5">End-to-end visit booking system.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section id="testimonials" class="py-20 border-t border-white/5 overflow-hidden">
+  <!-- Header -->
+  <div class="px-6 md:px-12 lg:px-20 flex flex-col items-center text-center mb-14">
+    <div class="inline-flex items-center gap-2 border border-white/10 bg-white/5 rounded-full px-4 py-1.5 mb-5 gsap-fadeup">
+      <span class="text-xs font-semibold uppercase tracking-widest text-ink-muted">Client Stories</span>
+    </div>
+    <h2 class="font-syne font-bold leading-tight tracking-tight mb-4 gsap-fadeup"
+        style="font-size: clamp(2rem, 4vw, 3.5rem);">
+      What our <span class="text-orange">clients say.</span>
+    </h2>
+    <p class="text-ink-muted text-base font-light max-w-sm leading-relaxed gsap-fadeup">
+      Discover how businesses across Indonesia level up with Digital Kita.
+    </p>
+  </div>
+
+  <!-- 3-column scrolling testimonials -->
+  <div class="flex justify-center gap-5 px-4 overflow-hidden testi-mask" style="max-height:680px">
+    <!-- Column 1 — scroll up -->
+    <div class="testi-col-1 flex flex-col gap-5 w-72 flex-shrink-0">
+      <!-- Card -->
+      <div class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
+        <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">"Digital Kita delivered our website faster than expected. Very professional team, responsive communication throughout."</p>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20" alt="Ahmad Ridwan"/>
+          <div><p class="text-sm font-medium">Ahmad Ridwan</p><p class="text-ink-muted text-xs font-light">Owner, UMKM Batik Klaten</p></div>
+        </div>
+      </div>
+      <div class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
+        <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">"Sangat puas! Website kami kini tampil lebih profesional dan pengunjung meningkat drastis. Recommended banget!"</p>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20" alt="Dewi Nur"/>
+          <div><p class="text-sm font-medium">Dewi Nur</p><p class="text-ink-muted text-xs font-light">Founder, Toko Online Handmade</p></div>
+        </div>
+      </div>
+      <div class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
+        <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">"Mereka benar-benar memahami apa yang kami butuhkan. Hasilnya melebihi ekspektasi kami, tampilan profesional!"</p>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20" alt="Farhan Siddiqui"/>
+          <div><p class="text-sm font-medium">Farhan Siddiqui</p><p class="text-ink-muted text-xs font-light">Manager, Toko Digital</p></div>
+        </div>
+      </div>
+      <!-- Duplicate for seamless loop -->
+      <div class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
+        <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">"Digital Kita delivered our website faster than expected. Very professional team, responsive communication throughout."</p>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20" alt="Ahmad Ridwan"/>
+          <div><p class="text-sm font-medium">Ahmad Ridwan</p><p class="text-ink-muted text-xs font-light">Owner, UMKM Batik Klaten</p></div>
+        </div>
+      </div>
+      <div class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
+        <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">"Sangat puas! Website kami kini tampil lebih profesional dan pengunjung meningkat drastis. Recommended banget!"</p>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20" alt="Dewi Nur"/>
+          <div><p class="text-sm font-medium">Dewi Nur</p><p class="text-ink-muted text-xs font-light">Founder, Toko Online Handmade</p></div>
+        </div>
+      </div>
+      <div class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
+        <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">"Mereka benar-benar memahami apa yang kami butuhkan. Hasilnya melebihi ekspektasi kami, tampilan profesional!"</p>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20" alt="Farhan Siddiqui"/>
+          <div><p class="text-sm font-medium">Farhan Siddiqui</p><p class="text-ink-muted text-xs font-light">Manager, Toko Digital</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Column 2 — scroll down (reverse), hidden on mobile -->
+    <div class="testi-col-2 hidden md:flex flex-col gap-5 w-72 flex-shrink-0">
+      <div class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
+        <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">"The booking platform has significantly improved visitor management at our village. Clean design, easy to use."</p>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20" alt="Sari Widayanti"/>
+          <div><p class="text-sm font-medium">Sari Widayanti</p><p class="text-ink-muted text-xs font-light">Pengelola, Desa Wisata Krebet</p></div>
+        </div>
+      </div>
+      <div class="testi-card border border-orange/15 bg-orange/5 rounded-2xl p-6 cursor-default hover:border-orange/40 transition-all">
+        <p class="text-ink/80 text-sm font-light leading-relaxed mb-5">"I needed a final project app that was functional AND well-designed. The Flutter app they built got an A from my professor!"</p>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/30" alt="Muhammad Faiz"/>
+          <div><p class="text-sm font-medium">Muhammad Faiz</p><p class="text-ink-muted text-xs font-light">Mahasiswa, UNY Yogyakarta</p></div>
+        </div>
+      </div>
+      <div class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
+        <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">"Support-nya luar biasa! Setiap pertanyaan direspon cepat. Tim yang sangat berdedikasi dan profesional."</p>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20" alt="Zainab H"/>
+          <div><p class="text-sm font-medium">Zainab Husna</p><p class="text-ink-muted text-xs font-light">Project Manager, Startup Lokal</p></div>
+        </div>
+      </div>
+      <!-- Duplicates -->
+      <div class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
+        <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">"The booking platform has significantly improved visitor management at our village. Clean design, easy to use."</p>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20" alt="Sari Widayanti"/>
+          <div><p class="text-sm font-medium">Sari Widayanti</p><p class="text-ink-muted text-xs font-light">Pengelola, Desa Wisata Krebet</p></div>
+        </div>
+      </div>
+      <div class="testi-card border border-orange/15 bg-orange/5 rounded-2xl p-6 cursor-default hover:border-orange/40 transition-all">
+        <p class="text-ink/80 text-sm font-light leading-relaxed mb-5">"I needed a final project app that was functional AND well-designed. The Flutter app they built got an A from my professor!"</p>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/30" alt="Muhammad Faiz"/>
+          <div><p class="text-sm font-medium">Muhammad Faiz</p><p class="text-ink-muted text-xs font-light">Mahasiswa, UNY Yogyakarta</p></div>
+        </div>
+      </div>
+      <div class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
+        <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">"Support-nya luar biasa! Setiap pertanyaan direspon cepat. Tim yang sangat berdedikasi dan profesional."</p>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20" alt="Zainab H"/>
+          <div><p class="text-sm font-medium">Zainab Husna</p><p class="text-ink-muted text-xs font-light">Project Manager, Startup Lokal</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Column 3 — scroll up again, hidden below lg -->
+    <div class="testi-col-3 hidden lg:flex flex-col gap-5 w-72 flex-shrink-0">
+      <div class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
+        <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">"Website yang dibuat Digital Kita sangat cepat loadingnya, SEO-friendly, dan tampilan mobilenya sempurna!"</p>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80&h=80&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20" alt="Aliza K"/>
+          <div><p class="text-sm font-medium">Aliza Kirana</p><p class="text-ink-muted text-xs font-light">CEO, Brand Lokal Jogja</p></div>
+        </div>
+      </div>
+      <div class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
+        <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">"Proses kerjasamanya transparan, selalu update progress, dan hasilnya benar-benar sesuai brief. Mantap!"</p>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20" alt="Briana P"/>
+          <div><p class="text-sm font-medium">Briana Putri</p><p class="text-ink-muted text-xs font-light">Marketing Director</p></div>
+        </div>
+      </div>
+      <div class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
+        <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">"App Flutter yang mereka buat sangat smooth, UI-nya keren, dan fitur-fiturnya berjalan sempurna. 10/10!"</p>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&h=80&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20" alt="Hassan A"/>
+          <div><p class="text-sm font-medium">Hassan Ali</p><p class="text-ink-muted text-xs font-light">Tech Lead, E-commerce</p></div>
+        </div>
+      </div>
+      <!-- Duplicates -->
+      <div class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
+        <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">"Website yang dibuat Digital Kita sangat cepat loadingnya, SEO-friendly, dan tampilan mobilenya sempurna!"</p>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80&h=80&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20" alt="Aliza K"/>
+          <div><p class="text-sm font-medium">Aliza Kirana</p><p class="text-ink-muted text-xs font-light">CEO, Brand Lokal Jogja</p></div>
+        </div>
+      </div>
+      <div class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
+        <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">"Proses kerjasamanya transparan, selalu update progress, dan hasilnya benar-benar sesuai brief. Mantap!"</p>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20" alt="Briana P"/>
+          <div><p class="text-sm font-medium">Briana Putri</p><p class="text-ink-muted text-xs font-light">Marketing Director</p></div>
+        </div>
+      </div>
+      <div class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
+        <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">"App Flutter yang mereka buat sangat smooth, UI-nya keren, dan fitur-fiturnya berjalan sempurna. 10/10!"</p>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&h=80&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20" alt="Hassan A"/>
+          <div><p class="text-sm font-medium">Hassan Ali</p><p class="text-ink-muted text-xs font-light">Tech Lead, E-commerce</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA BAND ── -->
+<section class="py-20 px-6 md:px-12 lg:px-20 border-t border-white/5 bg-surface">
+  <div class="max-w-2xl gsap-fadeup">
+    <h2 class="font-syne font-extrabold leading-tight tracking-tight mb-5"
+        style="font-size: clamp(2rem, 5vw, 4rem);">
+      Got a project<br/><span class="text-orange">in mind?</span>
+    </h2>
+    <p class="text-ink-muted font-light text-base leading-relaxed mb-8 max-w-md">Tell us about it. We respond within 24 hours and offer a free initial consultation — no strings attached.</p>
+    <a href="contact.html" class="group inline-flex items-center gap-3 px-7 py-4 bg-orange text-white rounded font-medium hover:bg-orange-light transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-orange/20">
+      Let's Build Together
+      <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<div class="px-4 md:px-8 pb-8 pt-4">
+  <!-- Tape SVG top-left and top-right -->
+  <div class="relative">
+    <!-- Tape left -->
+    <div class="hidden md:block absolute -top-5 left-20 z-10 opacity-80">
+      <svg width="76" height="64" viewBox="0 0 95 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 45L70.282 5L88.282 36.1769L19 76.1769L1 45Z" fill="#F26419" opacity="0.8"/>
+        <path d="M69.6829 39.997C74.772 36.9233 80.2799 35.022 85.4464 32.0415C85.5584 31.9769 85.6703 31.912 85.782 31.8468L83.9519 38.6769C80.2833 32.3886 75.7064 26.4975 72.2275 20.0846C70.0007 15.9783 67.7966 11.8425 65.6183 7.69261L72.9746 9.66373C70.566 10.9281 68.1526 12.1837 65.7375 13.4301C59.1543 16.828 52.5477 20.1634 45.9059 23.4675C39.2779 26.7637 32.6138 30.0293 25.946 33.2683C21.417 35.4683 16.8774 37.6611 12.3408 39.8468C10.3494 40.8065 8.36335 41.7623 6.37228 42.7203C4.88674 43.4348 3.40117 44.1492 1.91563 44.8637C1.70897 44.9628 1.48389 45.0108 1.28779 44.994C1.0916 44.977 0.940536 44.8975 0.866099 44.7681C0.791689 44.6386 0.798739 44.4674 0.882816 44.289C0.966978 44.111 1.12195 43.9408 1.31146 43.8119C2.68692 42.8791 4.06239 41.9462 5.43785 41.0134C6.96571 39.9774 8.49068 38.9427 10.0185 37.9078L38.8369 70.2599L36.7896 71.4258C36.5175 71.5644 36.2453 71.7032 35.973 71.8416C35.7472 71.9341 35.4976 72.0165 35.2199 72.0788C34.6635 72.2038 34.1132 72.1978 33.5754 72.1917C33.3488 72.1891 33.1241 72.1864 32.9021 72.1937Z" fill="#F26419" opacity="0.5"/>
+      </svg>
+    </div>
+    <!-- Tape right -->
+    <div class="hidden md:block absolute -top-5 right-20 z-10 opacity-80 rotate-90">
+      <svg width="76" height="64" viewBox="0 0 95 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 45L70.282 5L88.282 36.1769L19 76.1769L1 45Z" fill="#F26419" opacity="0.8"/>
+      </svg>
+    </div>
+
+    <footer class="relative bg-surface border border-white/8 rounded-3xl max-w-6xl mx-auto px-6 md:px-10 py-10">
+      <div class="flex flex-col md:flex-row justify-between gap-10">
+
+        <!-- Brand -->
+        <div class="flex flex-col gap-3 max-w-xs">
+          <a href="index.html" class="font-syne font-extrabold text-2xl tracking-tight">
+            Digital<span class="text-orange">Kita</span>
+          </a>
+          <p class="text-ink-muted text-sm font-light leading-relaxed">
+            Web & App Development Studio based in Klaten, Jawa Tengah. We build digital products that actually work.
+          </p>
+          <!-- Social -->
+          <div class="flex gap-4 mt-2">
+            <a href="#" aria-label="Instagram" class="w-9 h-9 rounded-lg border border-white/8 bg-white/5 flex items-center justify-center text-ink-muted hover:text-orange hover:border-orange/30 transition-all">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="#" aria-label="LinkedIn" class="w-9 h-9 rounded-lg border border-white/8 bg-white/5 flex items-center justify-center text-ink-muted hover:text-orange hover:border-orange/30 transition-all">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+            <a href="#" aria-label="GitHub" class="w-9 h-9 rounded-lg border border-white/8 bg-white/5 flex items-center justify-center text-ink-muted hover:text-orange hover:border-orange/30 transition-all">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Links -->
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+          <div class="flex flex-col gap-3">
+            <h4 class="text-xs font-semibold uppercase tracking-widest text-ink-muted">Pages</h4>
+            <div class="flex flex-col gap-2 text-sm">
+              <a href="index.html" class="text-ink-muted font-light hover:text-orange transition-colors">Home</a>
+              <a href="services.html" class="text-ink-muted font-light hover:text-orange transition-colors">Services</a>
+              <a href="work.html" class="text-ink-muted font-light hover:text-orange transition-colors">Our Work</a>
+              <a href="about.html" class="text-ink-muted font-light hover:text-orange transition-colors">About</a>
+              <a href="contact.html" class="text-ink-muted font-light hover:text-orange transition-colors">Contact</a>
+            </div>
+          </div>
+          <div class="flex flex-col gap-3">
+            <h4 class="text-xs font-semibold uppercase tracking-widest text-ink-muted">Services</h4>
+            <div class="flex flex-col gap-2 text-sm">
+              <a href="services.html" class="text-ink-muted font-light hover:text-orange transition-colors">Web Development</a>
+              <a href="services.html" class="text-ink-muted font-light hover:text-orange transition-colors">App Development</a>
+              <a href="services.html" class="text-ink-muted font-light hover:text-orange transition-colors">UI/UX Design</a>
+              <a href="services.html" class="text-ink-muted font-light hover:text-orange transition-colors">UMKM Solutions</a>
+              <a href="services.html" class="text-ink-muted font-light hover:text-orange transition-colors">Maintenance</a>
+            </div>
+          </div>
+          <div class="flex flex-col gap-3">
+            <h4 class="text-xs font-semibold uppercase tracking-widest text-ink-muted">Contact</h4>
+            <div class="flex flex-col gap-2 text-sm">
+              <a href="mailto:hello@digitalkita.id" class="text-ink-muted font-light hover:text-orange transition-colors">hello@digitalkita.id</a>
+              <span class="text-ink-muted font-light">Klaten, Jawa Tengah</span>
+              <span class="text-ink-muted font-light">Indonesia 🇮🇩</span>
+              <a href="contact.html" class="inline-flex items-center gap-1.5 text-orange text-xs font-medium mt-1 hover:gap-2.5 transition-all">
+                Get in touch →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="max-w-6xl mx-auto mt-4 px-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-ink-muted font-light">
+    <p>© 2025 Digital Kita. All rights reserved. Crafted with ☕ in Klaten.</p>
+    <div class="flex gap-5">
+      <a href="#" class="hover:text-orange transition-colors">Privacy Policy</a>
+      <a href="#" class="hover:text-orange transition-colors">Terms of Service</a>
+    </div>
+  </div>
+</div>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// Cursor blob
+const blob = document.getElementById('cursorBlob');
+document.addEventListener('mousemove', e => {
+  gsap.to(blob, { x: e.clientX, y: e.clientY, duration: 0.8, ease: 'power2.out' });
+});
+
+// Hero entrance
+const tl = gsap.timeline({ delay: 0.15 });
+tl.to('#heroTag',   { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' })
+  .to('#h1l1',      { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.3')
+  .to('#h1l2',      { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.55')
+  .to('#h1l3',      { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.55')
+  .to('#heroSub',   { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.3')
+  .to('#heroCtas',  { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, '-=0.3')
+  .to('#scrollInd', { opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' }, '-=0.2')
+  .to('#heroCard1', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.7')
+  .to('#heroCard2', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.4');
+
+// Scroll reveals
+gsap.utils.toArray('.gsap-fadeup').forEach((el, i) => {
+  gsap.fromTo(el, { opacity: 0, y: 30 }, {
+    opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' },
+    delay: (i % 3) * 0.08
+  });
+});
+
+// Service cards stagger
+gsap.utils.toArray('.service-card').forEach((el, i) => {
+  gsap.fromTo(el, { opacity: 0, y: 24 }, {
+    opacity: 1, y: 0, duration: 0.6, ease: 'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 88%' },
+    delay: i * 0.1
+  });
+});
+
+// Stat items stagger
+gsap.utils.toArray('.stat-item').forEach((el, i) => {
+  gsap.fromTo(el, { opacity: 0, y: 20 }, {
+    opacity: 1, y: 0, duration: 0.5, ease: 'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 90%' },
+    delay: i * 0.1
+  });
+});
+
+// Count up
+const countEls = document.querySelectorAll('.count-up');
+countEls.forEach(el => {
+  const target = parseInt(el.dataset.target);
+  const suffix = el.querySelector('span').outerHTML;
+  ScrollTrigger.create({
+    trigger: el, start: 'top 85%',
+    onEnter: () => {
+      let start = 0;
+      const step = Math.ceil(target / 40);
+      const timer = setInterval(() => {
+        start = Math.min(start + step, target);
+        el.innerHTML = start + suffix;
+        if (start >= target) clearInterval(timer);
+      }, 30);
+    }
+  });
+});
+
+// Navbar shrink → floating pill on scroll
+ScrollTrigger.create({
+  start: 'top -80',
+  onUpdate: self => {
+    const nav = document.getElementById('navbar');
+    if (self.progress > 0) {
+      nav.classList.add('shrunk');
+      nav.classList.remove('border-b', 'border-white/5');
+    } else {
+      nav.classList.remove('shrunk');
+      nav.classList.add('border-b', 'border-white/5');
+    }
+  }
+});
+
+// Mobile menu
+const btn = document.getElementById('menuBtn');
+const menu = document.getElementById('mobileMenu');
+let open = false;
+btn.addEventListener('click', () => {
+  open = !open;
+  menu.classList.toggle('hidden', !open);
+  document.getElementById('m1').style.transform = open ? 'translateY(6px) rotate(45deg)' : '';
+  document.getElementById('m2').style.opacity = open ? '0' : '1';
+  document.getElementById('m3').style.transform = open ? 'translateY(-6px) rotate(-45deg)' : '';
+  document.getElementById('m3').style.width = open ? '24px' : '';
+});
+menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { open = false; menu.classList.add('hidden'); }));
+
+// Tilt effect on cards
+document.querySelectorAll('.glow-border').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    gsap.to(card, { rotateX: -y * 4, rotateY: x * 4, duration: 0.4, ease: 'power2.out', transformPerspective: 800 });
+  });
+  card.addEventListener('mouseleave', () => {
+    gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.5, ease: 'power2.out' });
+  });
+});
+</script>
+</body>
+</html>
