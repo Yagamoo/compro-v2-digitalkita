@@ -1,224 +1,672 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="scroll-smooth">
-<head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Services — Digital Kita</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Epilogue:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
-<script>
-tailwind.config = { theme: { extend: { colors: { bg: '#0A0A0A', surface: '#111111', surface2: '#181818', orange: { DEFAULT: '#F26419', light: '#FF8C42' }, ink: { DEFAULT: '#F0EDE8', muted: '#7A7672' } }, fontFamily: { syne: ['Syne','sans-serif'], epi: ['Epilogue','sans-serif'] } } } }
-</script>
-<style>
-body { font-family:'Epilogue',sans-serif; background:#0A0A0A; color:#F0EDE8; overflow-x:hidden; }
-::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:#F26419;border-radius:2px}
-.grid-bg{background-image:linear-gradient(rgba(255,255,255,0.03)1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03)1px,transparent 1px);background-size:64px 64px}
-.hover-line{position:relative}.hover-line::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:#F26419;transition:width 0.3s ease}.hover-line:hover::after{width:100%}
-.glow-border{transition:box-shadow 0.3s ease,border-color 0.3s ease}.glow-border:hover{border-color:rgba(242,100,25,0.4)!important;box-shadow:0 0 24px rgba(242,100,25,0.08)}
-.blob{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(242,100,25,0.15)0%,transparent 65%);filter:blur(40px);pointer-events:none}
-</style>
-</head>
-<body>
-<nav class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 border-b border-white/5 bg-bg/80 backdrop-blur-xl">
-  <a href="index.html" class="font-syne font-extrabold text-lg tracking-tight">Digital<span class="text-orange">Kita</span></a>
-  <ul class="hidden md:flex items-center gap-8 list-none">
-    <li><a href="services.html" class="text-orange text-sm font-medium">Services</a></li>
-    <li><a href="work.html" class="text-ink-muted text-sm hover-line hover:text-ink transition-colors">Our Work</a></li>
-    <li><a href="about.html" class="text-ink-muted text-sm hover-line hover:text-ink transition-colors">About</a></li>
-    <li><a href="contact.html" class="text-sm px-5 py-2 bg-orange text-white rounded-full font-medium hover:bg-orange-light transition-all">Get in Touch</a></li>
-  </ul>
-  <a href="index.html" class="md:hidden text-ink-muted text-sm">← Back</a>
-</nav>
-
-<div class="grid-bg min-h-screen pt-28 pb-20 px-6 md:px-12 lg:px-20 relative overflow-hidden">
-  <div class="blob w-[400px] h-[400px] top-0 right-0 opacity-50"></div>
-
-  <p class="flex items-center gap-3 text-orange text-xs font-medium tracking-widest uppercase mb-4 opacity-0" id="eyebrow">
-    <span class="w-6 h-px bg-orange inline-block"></span>What We Offer
-  </p>
-  <h1 class="font-syne font-extrabold leading-tight tracking-tight mb-6 opacity-0" id="pageTitle"
-      style="font-size:clamp(2.5rem,6vw,5.5rem)">
-    Our<br/><span class="text-orange">Services.</span>
-  </h1>
-  <p class="text-ink-muted font-light text-base leading-relaxed max-w-lg mb-16 opacity-0" id="pageSub">
-    From concept to deployment — we handle the full stack so you can focus on what matters: growing your business.
-  </p>
-</div>
-
-<section class="px-6 md:px-12 lg:px-20 pb-24 -mt-8">
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    <!-- 6 service cards -->
-    <div class="s-card border border-white/5 bg-surface rounded-xl p-8 glow-border relative overflow-hidden group">
-      <div class="absolute inset-x-0 bottom-0 h-0.5 bg-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-      <span class="absolute top-6 right-6 font-syne font-bold text-xs tracking-widest text-white/8">01</span>
-      <div class="w-11 h-11 rounded-lg bg-orange/10 border border-orange/20 flex items-center justify-center text-xl mb-6">🌐</div>
-      <h3 class="font-syne font-bold text-lg mb-3">Web Development</h3>
-      <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">Responsive, lightning-fast websites built with modern frameworks. From company profiles to full e-commerce platforms with admin dashboards.</p>
-      <ul class="text-ink-muted text-xs font-light space-y-1.5 mb-5">
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>Company Profile & Landing Page</li>
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>E-commerce Platform</li>
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>Web App & Dashboard</li>
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>CMS Integration</li>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Services — Digital Kita</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Epilogue:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+      rel="stylesheet" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              bg: "#0A0A0A",
+              surface: "#111111",
+              surface2: "#181818",
+              orange: { DEFAULT: "#F26419", light: "#FF8C42" },
+              ink: { DEFAULT: "#F0EDE8", muted: "#7A7672" },
+            },
+            fontFamily: {
+              syne: ["Syne", "sans-serif"],
+              epi: ["Epilogue", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Epilogue", sans-serif;
+        background: #0a0a0a;
+        color: #f0ede8;
+        overflow-x: hidden;
+      }
+      ::-webkit-scrollbar {
+        width: 3px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #f26419;
+        border-radius: 2px;
+      }
+      .grid-bg {
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 64px 64px;
+      }
+      .hover-line {
+        position: relative;
+      }
+      .hover-line::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: #f26419;
+        transition: width 0.3s ease;
+      }
+      .hover-line:hover::after {
+        width: 100%;
+      }
+      .glow-border {
+        transition:
+          box-shadow 0.3s ease,
+          border-color 0.3s ease;
+      }
+      .glow-border:hover {
+        border-color: rgba(242, 100, 25, 0.4) !important;
+        box-shadow: 0 0 24px rgba(242, 100, 25, 0.08);
+      }
+      .blob {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(242, 100, 25, 0.15) 0%,
+          transparent 65%
+        );
+        filter: blur(40px);
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <nav
+      class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 border-b border-white/5 bg-bg/80 backdrop-blur-xl">
+      <a href="index.html" class="font-syne font-bold text-lg tracking-tight"
+        >Digital<span class="text-orange">Kita</span></a
+      >
+      <ul class="hidden md:flex items-center gap-8 list-none">
+        <li>
+          <a href="services.html" class="text-orange text-sm font-medium"
+            >Services</a
+          >
+        </li>
+        <li>
+          <a
+            href="work.html"
+            class="text-ink-muted text-sm hover-line hover:text-ink transition-colors"
+            >Our Work</a
+          >
+        </li>
+        <li>
+          <a
+            href="about.html"
+            class="text-ink-muted text-sm hover-line hover:text-ink transition-colors"
+            >About</a
+          >
+        </li>
+        <li>
+          <a
+            href="contact.html"
+            class="text-sm px-5 py-2 bg-orange text-white rounded-full font-medium hover:bg-orange-light transition-all"
+            >Get in Touch</a
+          >
+        </li>
       </ul>
-      <div class="flex flex-wrap gap-1.5">
-        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">React</span>
-        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">Next.js</span>
-        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">Laravel</span>
-        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">WordPress</span>
-      </div>
+      <a href="index.html" class="md:hidden text-ink-muted text-sm">← Back</a>
+    </nav>
+
+    <div
+      class="grid-bg min-h-screen pt-28 pb-20 px-6 md:px-12 lg:px-20 relative overflow-hidden">
+      <div class="blob w-[400px] h-[400px] top-0 right-0 opacity-50"></div>
+
+      <p
+        class="flex items-center gap-3 text-orange text-xs font-medium tracking-widest uppercase mb-4 opacity-0"
+        id="eyebrow">
+        <span class="w-6 h-px bg-orange inline-block"></span>What We Offer
+      </p>
+      <h1
+        class="font-syne font-bold leading-tight tracking-tight mb-6 opacity-0"
+        id="pageTitle"
+        style="font-size: clamp(2.5rem, 6vw, 5.5rem)">
+        Our<br /><span class="text-orange">Services.</span>
+      </h1>
+      <p
+        class="text-ink-muted font-light text-base leading-relaxed max-w-lg mb-16 opacity-0"
+        id="pageSub">
+        From concept to deployment — we handle the full stack so you can focus
+        on what matters: growing your business.
+      </p>
     </div>
 
-    <div class="s-card border border-white/5 bg-surface rounded-xl p-8 glow-border relative overflow-hidden group">
-      <div class="absolute inset-x-0 bottom-0 h-0.5 bg-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-      <span class="absolute top-6 right-6 font-syne font-bold text-xs tracking-widest text-white/8">02</span>
-      <div class="w-11 h-11 rounded-lg bg-orange/10 border border-orange/20 flex items-center justify-center text-xl mb-6">📱</div>
-      <h3 class="font-syne font-bold text-lg mb-3">App Development</h3>
-      <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">Cross-platform mobile apps that work beautifully on both iOS and Android — without the double cost of native development.</p>
-      <ul class="text-ink-muted text-xs font-light space-y-1.5 mb-5">
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>Android & iOS App</li>
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>Cross-platform Flutter</li>
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>API Integration</li>
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>App Store Submission</li>
-      </ul>
-      <div class="flex flex-wrap gap-1.5">
-        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">Flutter</span>
-        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">React Native</span>
-        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">Dart</span>
-      </div>
-    </div>
-
-    <div class="s-card border border-white/5 bg-surface rounded-xl p-8 glow-border relative overflow-hidden group">
-      <div class="absolute inset-x-0 bottom-0 h-0.5 bg-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-      <span class="absolute top-6 right-6 font-syne font-bold text-xs tracking-widest text-white/8">03</span>
-      <div class="w-11 h-11 rounded-lg bg-orange/10 border border-orange/20 flex items-center justify-center text-xl mb-6">🎨</div>
-      <h3 class="font-syne font-bold text-lg mb-3">UI/UX Design</h3>
-      <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">Interfaces people actually enjoy using. We design with both aesthetics and conversion in mind — every click is intentional.</p>
-      <ul class="text-ink-muted text-xs font-light space-y-1.5 mb-5">
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>Wireframe & Prototype</li>
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>Design System</li>
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>User Flow & Research</li>
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>Handoff to Dev</li>
-      </ul>
-      <div class="flex flex-wrap gap-1.5">
-        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">Figma</span>
-        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">Prototyping</span>
-        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">User Research</span>
-      </div>
-    </div>
-
-    <div class="s-card border border-white/5 bg-surface rounded-xl p-8 glow-border relative overflow-hidden group">
-      <div class="absolute inset-x-0 bottom-0 h-0.5 bg-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-      <span class="absolute top-6 right-6 font-syne font-bold text-xs tracking-widest text-white/8">04</span>
-      <div class="w-11 h-11 rounded-lg bg-orange/10 border border-orange/20 flex items-center justify-center text-xl mb-6">🏪</div>
-      <h3 class="font-syne font-bold text-lg mb-3">UMKM Solutions</h3>
-      <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">Affordable, professional digital presence for small and medium businesses. Get online fast without breaking the bank.</p>
-      <ul class="text-ink-muted text-xs font-light space-y-1.5 mb-5">
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>Landing Page & Catalog</li>
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>WhatsApp Integration</li>
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>Online Booking</li>
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>Simple CMS</li>
-      </ul>
-      <div class="flex flex-wrap gap-1.5">
-        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">Affordable</span>
-        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">Fast Delivery</span>
-      </div>
-    </div>
-
-    <div class="s-card border border-white/5 bg-surface rounded-xl p-8 glow-border relative overflow-hidden group">
-      <div class="absolute inset-x-0 bottom-0 h-0.5 bg-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-      <span class="absolute top-6 right-6 font-syne font-bold text-xs tracking-widest text-white/8">05</span>
-      <div class="w-11 h-11 rounded-lg bg-orange/10 border border-orange/20 flex items-center justify-center text-xl mb-6">⚙️</div>
-      <h3 class="font-syne font-bold text-lg mb-3">Backend & API</h3>
-      <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">Scalable server-side solutions — REST APIs, database architecture, authentication, and third-party integrations.</p>
-      <ul class="text-ink-muted text-xs font-light space-y-1.5 mb-5">
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>REST API Development</li>
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>Database Architecture</li>
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>Auth & Security</li>
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>Third-party Integrations</li>
-      </ul>
-      <div class="flex flex-wrap gap-1.5">
-        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">Node.js</span>
-        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">Laravel</span>
-        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">MySQL</span>
-        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">Firebase</span>
-      </div>
-    </div>
-
-    <div class="s-card border border-white/5 bg-surface rounded-xl p-8 glow-border relative overflow-hidden group">
-      <div class="absolute inset-x-0 bottom-0 h-0.5 bg-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-      <span class="absolute top-6 right-6 font-syne font-bold text-xs tracking-widest text-white/8">06</span>
-      <div class="w-11 h-11 rounded-lg bg-orange/10 border border-orange/20 flex items-center justify-center text-xl mb-6">🚀</div>
-      <h3 class="font-syne font-bold text-lg mb-3">Maintenance & Support</h3>
-      <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">Your product doesn't stop at launch. We provide ongoing updates, bug fixes, hosting support, and performance monitoring.</p>
-      <ul class="text-ink-muted text-xs font-light space-y-1.5 mb-5">
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>Hosting & Deployment</li>
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>Bug Fixes & Updates</li>
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>Performance Monitoring</li>
-        <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange inline-block"></span>Priority Support</li>
-      </ul>
-      <div class="flex flex-wrap gap-1.5">
-        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">SLA</span>
-        <span class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted">Monthly Retainer</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- CTA -->
-  <div class="mt-16 border border-white/5 bg-surface rounded-xl p-10 md:p-14 flex flex-col md:flex-row md:items-center justify-between gap-8 glow-border s-card">
-    <div>
-      <h3 class="font-syne font-bold text-2xl md:text-3xl mb-2">Not sure which service you need?</h3>
-      <p class="text-ink-muted text-sm font-light">Let's talk — we'll figure out the right solution for your project together.</p>
-    </div>
-    <a href="contact.html" class="group inline-flex items-center gap-3 px-7 py-3.5 bg-orange text-white rounded font-medium hover:bg-orange-light transition-all hover:-translate-y-1 whitespace-nowrap">
-      Free Consultation
-      <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-    </a>
-  </div>
-</section>
-
-<!-- ── FOOTER ── -->
-<div class="px-4 md:px-8 pb-8 pt-4">
-  <div class="relative">
-    <div class="hidden md:block absolute -top-5 -left-4 z-10 opacity-80"><svg width="76" height="64" viewBox="0 0 95 80" fill="none"><path d="M1 45L70.282 5L88.282 36.1769L19 76.1769L1 45Z" fill="#F26419" opacity="0.8"/></svg></div>
-    <div class="hidden md:block absolute -top-5 -right-4 z-10 opacity-80 rotate-90"><svg width="76" height="64" viewBox="0 0 95 80" fill="none"><path d="M1 45L70.282 5L88.282 36.1769L19 76.1769L1 45Z" fill="#F26419" opacity="0.8"/></svg></div>
-    <footer class="relative bg-surface border border-white/8 rounded-3xl max-w-6xl mx-auto px-6 md:px-10 py-10">
-      <div class="flex flex-col md:flex-row justify-between gap-10">
-        <div class="flex flex-col gap-3 max-w-xs">
-          <a href="index.html" class="font-syne font-extrabold text-2xl tracking-tight">Digital<span class="text-orange">Kita</span></a>
-          <p class="text-ink-muted text-sm font-light leading-relaxed">Web &amp; App Development Studio based in Klaten, Jawa Tengah. We build digital products that actually work.</p>
+    <section class="px-6 md:px-12 lg:px-20 pb-24 -mt-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- 6 service cards -->
+        <div
+          class="s-card border border-white/5 bg-surface rounded-xl p-8 glow-border relative overflow-hidden group">
+          <div
+            class="absolute inset-x-0 bottom-0 h-0.5 bg-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+          <span
+            class="absolute top-6 right-6 font-syne font-bold text-xs tracking-widest text-white/8"
+            >01</span
+          >
+          <div
+            class="w-11 h-11 rounded-lg bg-orange/10 border border-orange/20 flex items-center justify-center text-xl mb-6">
+            🌐
+          </div>
+          <h3 class="font-syne font-bold text-lg mb-3">Web Development</h3>
+          <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
+            Responsive, lightning-fast websites built with modern frameworks.
+            From company profiles to full e-commerce platforms with admin
+            dashboards.
+          </p>
+          <ul class="text-ink-muted text-xs font-light space-y-1.5 mb-5">
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >Company Profile & Landing Page
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >E-commerce Platform
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >Web App & Dashboard
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >CMS Integration
+            </li>
+          </ul>
+          <div class="flex flex-wrap gap-1.5">
+            <span
+              class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
+              >React</span
+            >
+            <span
+              class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
+              >Next.js</span
+            >
+            <span
+              class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
+              >Laravel</span
+            >
+            <span
+              class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
+              >WordPress</span
+            >
+          </div>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
-          <div class="flex flex-col gap-3"><h4 class="text-xs font-semibold uppercase tracking-widest text-ink-muted">Pages</h4><div class="flex flex-col gap-2 text-sm"><a href="index.html" class="text-ink-muted font-light hover:text-orange transition-colors">Home</a><a href="services.html" class="text-ink-muted font-light hover:text-orange transition-colors">Services</a><a href="work.html" class="text-ink-muted font-light hover:text-orange transition-colors">Our Work</a><a href="about.html" class="text-ink-muted font-light hover:text-orange transition-colors">About</a><a href="contact.html" class="text-ink-muted font-light hover:text-orange transition-colors">Contact</a></div></div>
-          <div class="flex flex-col gap-3"><h4 class="text-xs font-semibold uppercase tracking-widest text-ink-muted">Services</h4><div class="flex flex-col gap-2 text-sm"><a href="services.html" class="text-ink-muted font-light hover:text-orange transition-colors">Web Dev</a><a href="services.html" class="text-ink-muted font-light hover:text-orange transition-colors">App Dev</a><a href="services.html" class="text-ink-muted font-light hover:text-orange transition-colors">UI/UX Design</a><a href="services.html" class="text-ink-muted font-light hover:text-orange transition-colors">UMKM Solutions</a></div></div>
-          <div class="flex flex-col gap-3"><h4 class="text-xs font-semibold uppercase tracking-widest text-ink-muted">Contact</h4><div class="flex flex-col gap-2 text-sm"><a href="mailto:hello@digitalkita.id" class="text-ink-muted font-light hover:text-orange transition-colors">hello@digitalkita.id</a><span class="text-ink-muted font-light">Klaten, Jawa Tengah 🇮🇩</span><a href="contact.html" class="text-orange text-xs font-medium mt-1 hover:underline">Get in touch →</a></div></div>
+
+        <!-- <div
+          class="s-card border border-white/5 bg-surface rounded-xl p-8 glow-border relative overflow-hidden group">
+          <div
+            class="absolute inset-x-0 bottom-0 h-0.5 bg-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+          <span
+            class="absolute top-6 right-6 font-syne font-bold text-xs tracking-widest text-white/8"
+            >02</span
+          >
+          <div
+            class="w-11 h-11 rounded-lg bg-orange/10 border border-orange/20 flex items-center justify-center text-xl mb-6">
+            📱
+          </div>
+          <h3 class="font-syne font-bold text-lg mb-3">App Development</h3>
+          <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
+            Cross-platform mobile apps that work beautifully on both iOS and
+            Android — without the double cost of native development.
+          </p>
+          <ul class="text-ink-muted text-xs font-light space-y-1.5 mb-5">
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >Android & iOS App
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >Cross-platform Flutter
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >API Integration
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >App Store Submission
+            </li>
+          </ul>
+          <div class="flex flex-wrap gap-1.5">
+            <span
+              class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
+              >Flutter</span
+            >
+            <span
+              class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
+              >React Native</span
+            >
+            <span
+              class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
+              >Dart</span
+            >
+          </div>
+        </div> -->
+
+        <div
+          class="s-card border border-white/5 bg-surface rounded-xl p-8 glow-border relative overflow-hidden group">
+          <div
+            class="absolute inset-x-0 bottom-0 h-0.5 bg-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+          <span
+            class="absolute top-6 right-6 font-syne font-bold text-xs tracking-widest text-white/8"
+            >03</span
+          >
+          <div
+            class="w-11 h-11 rounded-lg bg-orange/10 border border-orange/20 flex items-center justify-center text-xl mb-6">
+            🎨
+          </div>
+          <h3 class="font-syne font-bold text-lg mb-3">UI/UX Design</h3>
+          <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
+            Interfaces people actually enjoy using. We design with both
+            aesthetics and conversion in mind — every click is intentional.
+          </p>
+          <ul class="text-ink-muted text-xs font-light space-y-1.5 mb-5">
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >Wireframe & Prototype
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >Design System
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >User Flow & Research
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >Handoff to Dev
+            </li>
+          </ul>
+          <div class="flex flex-wrap gap-1.5">
+            <span
+              class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
+              >Figma</span
+            >
+            <span
+              class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
+              >Prototyping</span
+            >
+            <span
+              class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
+              >User Research</span
+            >
+          </div>
+        </div>
+
+        <div
+          class="s-card border border-white/5 bg-surface rounded-xl p-8 glow-border relative overflow-hidden group">
+          <div
+            class="absolute inset-x-0 bottom-0 h-0.5 bg-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+          <span
+            class="absolute top-6 right-6 font-syne font-bold text-xs tracking-widest text-white/8"
+            >04</span
+          >
+          <div
+            class="w-11 h-11 rounded-lg bg-orange/10 border border-orange/20 flex items-center justify-center text-xl mb-6">
+            🏪
+          </div>
+          <h3 class="font-syne font-bold text-lg mb-3">UMKM Solutions</h3>
+          <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
+            Affordable, professional digital presence for small and medium
+            businesses. Get online fast without breaking the bank.
+          </p>
+          <ul class="text-ink-muted text-xs font-light space-y-1.5 mb-5">
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >Landing Page & Catalog
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >WhatsApp Integration
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >Online Booking
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >Simple CMS
+            </li>
+          </ul>
+          <div class="flex flex-wrap gap-1.5">
+            <span
+              class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
+              >Affordable</span
+            >
+            <span
+              class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
+              >Fast Delivery</span
+            >
+          </div>
+        </div>
+
+        <div
+          class="s-card border border-white/5 bg-surface rounded-xl p-8 glow-border relative overflow-hidden group">
+          <div
+            class="absolute inset-x-0 bottom-0 h-0.5 bg-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+          <span
+            class="absolute top-6 right-6 font-syne font-bold text-xs tracking-widest text-white/8"
+            >05</span
+          >
+          <div
+            class="w-11 h-11 rounded-lg bg-orange/10 border border-orange/20 flex items-center justify-center text-xl mb-6">
+            ⚙️
+          </div>
+          <h3 class="font-syne font-bold text-lg mb-3">Backend & API</h3>
+          <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
+            Scalable server-side solutions — REST APIs, database architecture,
+            authentication, and third-party integrations.
+          </p>
+          <ul class="text-ink-muted text-xs font-light space-y-1.5 mb-5">
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >REST API Development
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >Database Architecture
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >Auth & Security
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >Third-party Integrations
+            </li>
+          </ul>
+          <div class="flex flex-wrap gap-1.5">
+            <span
+              class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
+              >Node.js</span
+            >
+            <span
+              class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
+              >Laravel</span
+            >
+            <span
+              class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
+              >MySQL</span
+            >
+            <span
+              class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
+              >Firebase</span
+            >
+          </div>
+        </div>
+
+        <div
+          class="s-card border border-white/5 bg-surface rounded-xl p-8 glow-border relative overflow-hidden group">
+          <div
+            class="absolute inset-x-0 bottom-0 h-0.5 bg-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+          <span
+            class="absolute top-6 right-6 font-syne font-bold text-xs tracking-widest text-white/8"
+            >06</span
+          >
+          <div
+            class="w-11 h-11 rounded-lg bg-orange/10 border border-orange/20 flex items-center justify-center text-xl mb-6">
+            🚀
+          </div>
+          <h3 class="font-syne font-bold text-lg mb-3">
+            Maintenance & Support
+          </h3>
+          <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
+            Your product doesn't stop at launch. We provide ongoing updates, bug
+            fixes, hosting support, and performance monitoring.
+          </p>
+          <ul class="text-ink-muted text-xs font-light space-y-1.5 mb-5">
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >Hosting & Deployment
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >Bug Fixes & Updates
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >Performance Monitoring
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1 h-1 rounded-full bg-orange inline-block"></span
+              >Priority Support
+            </li>
+          </ul>
+          <div class="flex flex-wrap gap-1.5">
+            <span
+              class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
+              >SLA</span
+            >
+            <span
+              class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
+              >Monthly Retainer</span
+            >
+          </div>
         </div>
       </div>
-    </footer>
-  </div>
-  <div class="max-w-6xl mx-auto mt-4 px-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-ink-muted font-light">
-    <p>© 2025 Digital Kita. All rights reserved. Crafted with ☕ in Klaten.</p>
-    <div class="flex gap-5"><a href="#" class="hover:text-orange transition-colors">Privacy Policy</a><a href="#" class="hover:text-orange transition-colors">Terms of Service</a></div>
-  </div>
-</div>
 
-<script>
-gsap.registerPlugin(ScrollTrigger);
-gsap.timeline({ delay: 0.1 })
-  .to('#eyebrow', { opacity:1, y:0, duration:0.5, ease:'power3.out' })
-  .to('#pageTitle', { opacity:1, y:0, duration:0.7, ease:'power3.out' }, '-=0.3')
-  .to('#pageSub', { opacity:1, y:0, duration:0.5, ease:'power3.out' }, '-=0.4');
-gsap.utils.toArray('.s-card').forEach((el,i) => {
-  gsap.fromTo(el, { opacity:0, y:24 }, { opacity:1, y:0, duration:0.6, ease:'power3.out',
-    scrollTrigger: { trigger:el, start:'top 88%' }, delay: (i%3)*0.08 });
-});
-document.querySelectorAll('.glow-border').forEach(card => {
-  card.addEventListener('mousemove', e => {
-    const r = card.getBoundingClientRect();
-    gsap.to(card, { rotateX: -((e.clientY-r.top)/r.height-0.5)*4, rotateY: ((e.clientX-r.left)/r.width-0.5)*4, duration:0.4, ease:'power2.out', transformPerspective:800 });
-  });
-  card.addEventListener('mouseleave', () => gsap.to(card, { rotateX:0, rotateY:0, duration:0.5, ease:'power2.out' }));
-});
-</script>
-</body>
+      <!-- CTA -->
+      <div
+        class="mt-16 border border-white/5 bg-surface rounded-xl p-10 md:p-14 flex flex-col md:flex-row md:items-center justify-between gap-8 glow-border s-card">
+        <div>
+          <h3 class="font-syne font-bold text-2xl md:text-3xl mb-2">
+            Not sure which service you need?
+          </h3>
+          <p class="text-ink-muted text-sm font-light">
+            Let's talk — we'll figure out the right solution for your project
+            together.
+          </p>
+        </div>
+        <a
+          href="contact.html"
+          class="group inline-flex items-center gap-3 px-7 py-3.5 bg-orange text-white rounded font-medium hover:bg-orange-light transition-all hover:-translate-y-1 whitespace-nowrap">
+          Free Consultation
+          <svg
+            class="w-4 h-4 group-hover:translate-x-1 transition-transform"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- ── FOOTER ── -->
+    <div class="px-4 md:px-8 pb-8 pt-4">
+      <div class="relative">
+        <div class="hidden md:block absolute -top-5 -left-4 z-10 opacity-80">
+          <svg width="76" height="64" viewBox="0 0 95 80" fill="none">
+            <path
+              d="M1 45L70.282 5L88.282 36.1769L19 76.1769L1 45Z"
+              fill="#F26419"
+              opacity="0.8" />
+          </svg>
+        </div>
+        <div
+          class="hidden md:block absolute -top-5 -right-4 z-10 opacity-80 rotate-90">
+          <svg width="76" height="64" viewBox="0 0 95 80" fill="none">
+            <path
+              d="M1 45L70.282 5L88.282 36.1769L19 76.1769L1 45Z"
+              fill="#F26419"
+              opacity="0.8" />
+          </svg>
+        </div>
+        <footer
+          class="relative bg-surface border border-white/8 rounded-3xl max-w-6xl mx-auto px-6 md:px-10 py-10">
+          <div class="flex flex-col md:flex-row justify-between gap-10">
+            <div class="flex flex-col gap-3 max-w-xs">
+              <a
+                href="index.html"
+                class="font-syne font-bold text-2xl tracking-tight"
+                >Digital<span class="text-orange">Kita</span></a
+              >
+              <p class="text-ink-muted text-sm font-light leading-relaxed">
+                Web &amp; App Development Studio based in Klaten, Jawa Tengah.
+                We build digital products that actually work.
+              </p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+              <div class="flex flex-col gap-3">
+                <h4
+                  class="text-xs font-semibold uppercase tracking-widest text-ink-muted">
+                  Pages
+                </h4>
+                <div class="flex flex-col gap-2 text-sm">
+                  <a
+                    href="index.html"
+                    class="text-ink-muted font-light hover:text-orange transition-colors"
+                    >Home</a
+                  ><a
+                    href="services.html"
+                    class="text-ink-muted font-light hover:text-orange transition-colors"
+                    >Services</a
+                  ><a
+                    href="work.html"
+                    class="text-ink-muted font-light hover:text-orange transition-colors"
+                    >Our Work</a
+                  ><a
+                    href="about.html"
+                    class="text-ink-muted font-light hover:text-orange transition-colors"
+                    >About</a
+                  ><a
+                    href="contact.html"
+                    class="text-ink-muted font-light hover:text-orange transition-colors"
+                    >Contact</a
+                  >
+                </div>
+              </div>
+              <div class="flex flex-col gap-3">
+                <h4
+                  class="text-xs font-semibold uppercase tracking-widest text-ink-muted">
+                  Services
+                </h4>
+                <div class="flex flex-col gap-2 text-sm">
+                  <a
+                    href="services.html"
+                    class="text-ink-muted font-light hover:text-orange transition-colors"
+                    >Web Dev</a
+                  ><a
+                    href="services.html"
+                    class="text-ink-muted font-light hover:text-orange transition-colors"
+                    >App Dev</a
+                  ><a
+                    href="services.html"
+                    class="text-ink-muted font-light hover:text-orange transition-colors"
+                    >UI/UX Design</a
+                  ><a
+                    href="services.html"
+                    class="text-ink-muted font-light hover:text-orange transition-colors"
+                    >UMKM Solutions</a
+                  >
+                </div>
+              </div>
+              <div class="flex flex-col gap-3">
+                <h4
+                  class="text-xs font-semibold uppercase tracking-widest text-ink-muted">
+                  Contact
+                </h4>
+                <div class="flex flex-col gap-2 text-sm">
+                  <a
+                    href="mailto:hello@digitalkita.id"
+                    class="text-ink-muted font-light hover:text-orange transition-colors"
+                    >hello@digitalkita.id</a
+                  ><span class="text-ink-muted font-light"
+                    >Klaten, Jawa Tengah 🇮🇩</span
+                  ><a
+                    href="contact.html"
+                    class="text-orange text-xs font-medium mt-1 hover:underline"
+                    >Get in touch →</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+      <div
+        class="max-w-6xl mx-auto mt-4 px-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-ink-muted font-light">
+        <p>
+          © 2025 Digital Kita. All rights reserved. Crafted with ☕ in Klaten.
+        </p>
+        <div class="flex gap-5">
+          <a href="#" class="hover:text-orange transition-colors"
+            >Privacy Policy</a
+          ><a href="#" class="hover:text-orange transition-colors"
+            >Terms of Service</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <script>
+      gsap.registerPlugin(ScrollTrigger);
+      gsap
+        .timeline({ delay: 0.1 })
+        .to("#eyebrow", { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" })
+        .to(
+          "#pageTitle",
+          { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" },
+          "-=0.3",
+        )
+        .to(
+          "#pageSub",
+          { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+          "-=0.4",
+        );
+      gsap.utils.toArray(".s-card").forEach((el, i) => {
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: 24 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 88%" },
+            delay: (i % 3) * 0.08,
+          },
+        );
+      });
+      document.querySelectorAll(".glow-border").forEach((card) => {
+        card.addEventListener("mousemove", (e) => {
+          const r = card.getBoundingClientRect();
+          gsap.to(card, {
+            rotateX: -((e.clientY - r.top) / r.height - 0.5) * 4,
+            rotateY: ((e.clientX - r.left) / r.width - 0.5) * 4,
+            duration: 0.4,
+            ease: "power2.out",
+            transformPerspective: 800,
+          });
+        });
+        card.addEventListener("mouseleave", () =>
+          gsap.to(card, {
+            rotateX: 0,
+            rotateY: 0,
+            duration: 0.5,
+            ease: "power2.out",
+          }),
+        );
+      });
+    </script>
+  </body>
 </html>
