@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en" class="scroll-smooth">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Our Work — Digital Kita</title>
@@ -8,554 +9,552 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <link
-      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Epilogue:ital,wght@0,300;0,400;0,500;1,300&display=swap"
-      rel="stylesheet" />
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Epilogue:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+        rel="stylesheet" />
     <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              bg: "#0A0A0A",
-              surface: "#111111",
-              surface2: "#181818",
-              orange: { DEFAULT: "#F26419", light: "#FF8C42" },
-              ink: { DEFAULT: "#F0EDE8", muted: "#7A7672" },
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bg: "#0A0A0A",
+                        surface: "#111111",
+                        surface2: "#181818",
+                        orange: {
+                            DEFAULT: "#F26419",
+                            light: "#FF8C42"
+                        },
+                        ink: {
+                            DEFAULT: "#F0EDE8",
+                            muted: "#7A7672"
+                        },
+                    },
+                    fontFamily: {
+                        syne: ["Syne", "sans-serif"],
+                        epi: ["Epilogue", "sans-serif"],
+                    },
+                },
             },
-            fontFamily: {
-              syne: ["Syne", "sans-serif"],
-              epi: ["Epilogue", "sans-serif"],
-            },
-          },
-        },
-      };
+        };
     </script>
     <style>
-      body {
-        font-family: "Epilogue", sans-serif;
-        background: #0a0a0a;
-        color: #f0ede8;
-        overflow-x: hidden;
-      }
-      ::-webkit-scrollbar {
-        width: 3px;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #f26419;
-        border-radius: 2px;
-      }
-      .grid-bg {
-        background-image:
-          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-        background-size: 64px 64px;
-      }
-      .hover-line {
-        position: relative;
-      }
-      .hover-line::after {
-        content: "";
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 0;
-        height: 1px;
-        background: #f26419;
-        transition: width 0.3s;
-      }
-      .hover-line:hover::after {
-        width: 100%;
-      }
-      .glow-border {
-        transition:
-          box-shadow 0.3s,
-          border-color 0.3s;
-      }
-      .glow-border:hover {
-        border-color: rgba(242, 100, 25, 0.4) !important;
-        box-shadow: 0 0 32px rgba(242, 100, 25, 0.08);
-      }
-      .blob {
-        position: absolute;
-        border-radius: 50%;
-        background: radial-gradient(
-          circle,
-          rgba(242, 100, 25, 0.15) 0%,
-          transparent 65%
-        );
-        filter: blur(40px);
-        pointer-events: none;
-      }
-      .filter-btn.active {
-        background: #f26419;
-        color: #fff;
-        border-color: #f26419;
-      }
+        body {
+            font-family: "Epilogue", sans-serif;
+            background: #0a0a0a;
+            color: #f0ede8;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #f26419;
+            border-radius: 2px;
+        }
+
+        .grid-bg {
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 64px 64px;
+        }
+
+        .hover-line {
+            position: relative;
+        }
+
+        .hover-line::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #f26419;
+            transition: width 0.3s;
+        }
+
+        .hover-line:hover::after {
+            width: 100%;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle,
+                    rgba(242, 100, 25, 0.15) 0%,
+                    transparent 65%);
+            filter: blur(40px);
+            pointer-events: none;
+        }
+
+        .filter-btn.active {
+            background: #f26419;
+            color: #fff;
+            border-color: #f26419;
+        }
+
+        #navbar {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #navbar.scrolled {
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+            background: rgba(10, 10, 10, 0.95) !important;
+        }
+
+        @media (min-width: 768px) {
+            #navbar.scrolled {
+                max-width: 860px;
+                left: 50%;
+                transform: translateX(-50%);
+                top: 12px !important;
+                border-radius: 999px !important;
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+                padding-left: 24px !important;
+                padding-right: 24px !important;
+            }
+        }
+
+        .work-card {
+            cursor: pointer;
+            transition:
+                transform 0.25s ease,
+                border-color 0.3s,
+                box-shadow 0.3s;
+        }
+
+        .work-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(242, 100, 25, 0.4) !important;
+            box-shadow:
+                0 20px 48px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(242, 100, 25, 0.08);
+        }
+
+        .work-card:hover .card-img {
+            transform: scale(1.05);
+        }
+
+        .card-img {
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        #overlay {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        #overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        #modal {
+            transform: translateY(40px) scale(0.98);
+            opacity: 0;
+            pointer-events: none;
+            transition:
+                transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.3s;
+        }
+
+        #modal.show {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        #modal-body::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        #modal-body::-webkit-scrollbar-thumb {
+            background: #f26419;
+            border-radius: 2px;
+        }
+
+        .modal-bottom-fade::after {
+            content: "";
+            position: sticky;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: linear-gradient(to top, #111111, transparent);
+            display: block;
+            pointer-events: none;
+            margin-top: -56px;
+        }
     </style>
-  </head>
-  <body>
-    <nav
-      class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 border-b border-white/5 bg-bg/80 backdrop-blur-xl">
-      <a href="index.html" class="font-syne font-bold text-lg tracking-tight"
-        >Digital<span class="text-orange">Kita</span></a
-      >
-      <ul class="hidden md:flex items-center gap-8 list-none">
-        <li>
-          <a
-            href="services.html"
-            class="text-ink-muted text-sm hover-line hover:text-ink transition-colors"
-            >Services</a
-          >
-        </li>
-        <li>
-          <a href="work.html" class="text-orange text-sm font-medium"
-            >Our Work</a
-          >
-        </li>
-        <li>
-          <a
-            href="about.html"
-            class="text-ink-muted text-sm hover-line hover:text-ink transition-colors"
-            >About</a
-          >
-        </li>
-        <li>
-          <a
-            href="contact.html"
-            class="text-sm px-5 py-2 bg-orange text-white rounded-full font-medium hover:bg-orange-light transition-all"
-            >Get in Touch</a
-          >
-        </li>
-      </ul>
-      <a href="index.html" class="md:hidden text-ink-muted text-sm">← Back</a>
+</head>
+
+<body>
+    <nav id="navbar"
+        class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-10 py-4 border-b border-white/5 bg-bg/80 backdrop-blur-xl">
+        <a href="index.html" class="font-syne font-bold text-lg tracking-tight">Digital<span
+                class="text-orange">Kita</span></a>
+        <ul class="hidden md:flex items-center gap-6 list-none">
+            <li>
+                <a href="services.html"
+                    class="text-ink-muted text-sm hover-line hover:text-ink transition-colors">Services</a>
+            </li>
+            <li>
+                <a href="work.html" class="text-orange text-sm font-medium">Our Work</a>
+            </li>
+            <li>
+                <a href="about.html"
+                    class="text-ink-muted text-sm hover-line hover:text-ink transition-colors">About</a>
+            </li>
+            <li>
+                <a href="contact.html"
+                    class="text-sm px-5 py-2 bg-orange text-white rounded-full font-medium hover:bg-orange-light transition-all">Get
+                    in Touch</a>
+            </li>
+        </ul>
+        <a href="index.html" class="md:hidden text-ink-muted text-sm">← Back</a>
     </nav>
 
-    <div
-      class="grid-bg pt-28 pb-12 px-6 md:px-12 lg:px-20 relative overflow-hidden">
-      <div class="blob w-[400px] h-[400px] top-0 right-0 opacity-50"></div>
-      <p
-        class="flex items-center gap-3 text-orange text-xs font-medium tracking-widest uppercase mb-4 opacity-0"
-        id="eyebrow">
-        <span class="w-6 h-px bg-orange inline-block"></span>Portfolio
-      </p>
-      <h1
-        class="font-syne font-bold leading-tight tracking-tight mb-4 opacity-0"
-        id="pageTitle"
-        style="font-size: clamp(2.5rem, 6vw, 5.5rem)">
-        Selected<br /><span class="text-orange">Work.</span>
-      </h1>
-      <p
-        class="text-ink-muted font-light text-base leading-relaxed max-w-md mb-10 opacity-0"
-        id="pageSub">
-        Projects we're proud of — from UMKM sites to full-scale platforms.
-      </p>
-
-      <!-- Filter -->
-      <div class="flex flex-wrap gap-2 opacity-0" id="filters">
-        <button
-          class="filter-btn active text-xs px-4 py-1.5 border border-white/10 rounded-full font-medium transition-all"
-          data-filter="all">
-          All
-        </button>
-        <button
-          class="filter-btn text-xs px-4 py-1.5 border border-white/10 rounded-full text-ink-muted font-medium transition-all hover:border-orange/30 hover:text-ink"
-          data-filter="web">
-          Web
-        </button>
-        <button
-          class="filter-btn text-xs px-4 py-1.5 border border-white/10 rounded-full text-ink-muted font-medium transition-all hover:border-orange/30 hover:text-ink"
-          data-filter="app">
-          App
-        </button>
-        <button
-          class="filter-btn text-xs px-4 py-1.5 border border-white/10 rounded-full text-ink-muted font-medium transition-all hover:border-orange/30 hover:text-ink"
-          data-filter="umkm">
-          UMKM
-        </button>
-      </div>
+    <div class="grid-bg pt-28 pb-10 px-6 md:px-12 lg:px-20 relative overflow-hidden">
+        <div class="blob w-[400px] h-[400px] top-0 right-0 opacity-50"></div>
+        <p class="flex items-center gap-3 text-orange text-xs font-medium tracking-widest uppercase mb-4 opacity-0"
+            id="eyebrow">
+            <span class="w-6 h-px bg-orange inline-block"></span>Portfolio
+        </p>
+        <h1 class="font-syne font-bold leading-tight tracking-tight mb-4 opacity-0" id="pageTitle"
+            style="font-size: clamp(2.5rem, 6vw, 5.5rem)">
+            Selected<br /><span class="text-orange">Work.</span>
+        </h1>
+        <p class="text-ink-muted font-light text-base leading-relaxed max-w-md mb-8 opacity-0" id="pageSub">
+            Projects we're proud of — click any card to see the full story.
+        </p>
+        <div class="flex flex-wrap gap-2 opacity-0" id="filters">
+            <button
+                class="filter-btn active text-xs px-4 py-1.5 border border-white/10 rounded-full font-medium transition-all"
+                data-filter="all">
+                All
+            </button>
+            <button
+                class="filter-btn text-xs px-4 py-1.5 border border-white/10 rounded-full text-ink-muted font-medium transition-all hover:border-orange/30 hover:text-ink"
+                data-filter="web">
+                Web
+            </button>
+            <button
+                class="filter-btn text-xs px-4 py-1.5 border border-white/10 rounded-full text-ink-muted font-medium transition-all hover:border-orange/30 hover:text-ink"
+                data-filter="app">
+                App
+            </button>
+            <button
+                class="filter-btn text-xs px-4 py-1.5 border border-white/10 rounded-full text-ink-muted font-medium transition-all hover:border-orange/30 hover:text-ink"
+                data-filter="umkm">
+                UMKM
+            </button>
+        </div>
     </div>
 
     <section class="px-6 md:px-12 lg:px-20 pb-24">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5" id="workGrid">
-        <a
-          href="https://www.instagram.com/p/DKj8XNTvv5J"
-          target="_blank"
-          class="work-item all web group border border-white/5 bg-surface rounded-xl overflow-hidden glow-border block">
-          <div
-            class="aspect-video bg-surface2 flex items-center justify-center relative overflow-hidden">
-            <!-- <div
-              class="w-16 h-16 rounded-2xl bg-orange/10 border border-orange/20 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-500">
-              🕌
-            </div> -->
-            <img src="assets/project/sholat-reminder.png" alt="" />
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-bg/60 to-transparent"></div>
-            <span
-              class="absolute top-4 left-4 text-[10px] font-medium text-orange tracking-widest uppercase border border-orange/30 bg-orange/10 rounded-full px-3 py-1"
-              >Web App</span
-            >
-          </div>
-          <div class="p-6">
-            <p
-              class="text-orange text-[11px] font-medium tracking-widest uppercase mb-2">
-              Islamic Tech · 2024
-            </p>
-            <h3
-              class="font-syne font-bold text-lg mb-2 group-hover:text-orange transition-colors">
-              Solusi Digital Pengingat Sholat
-            </h3>
-            <p class="text-ink-muted text-sm font-light leading-relaxed">
-              WhatsApp-based prayer time notification system serving thousands
-              of daily users across Indonesia.
-            </p>
-            <div class="flex flex-wrap gap-1.5 mt-4">
-              <span
-                class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
-                >React</span
-              >
-              <span
-                class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
-                >Node.js</span
-              >
-              <span
-                class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
-                >WhatsApp API</span
-              >
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="workGrid">
+            <div class="work-item all web work-card border border-white/8 bg-surface rounded-2xl overflow-hidden p-3 flex flex-col gap-3"
+                onclick="openModal(0)">
+                <div class="relative overflow-hidden rounded-xl h-48 bg-surface2 flex-shrink-0">
+                    <img src="assets/project/sholat-reminder.png" class="card-img w-full h-full object-cover"
+                        alt="" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-bg/50 to-transparent"></div>
+                    <span
+                        class="absolute top-3 left-3 text-[10px] font-medium text-orange tracking-widest uppercase border border-orange/25 bg-bg/75 backdrop-blur-sm rounded-full px-3 py-1">Web
+                        App</span>
+                </div>
+                <div class="flex items-start justify-between px-1 pb-1">
+                    <div class="flex-1 min-w-0 pr-3">
+                        <p class="text-orange text-[10px] font-medium tracking-widest uppercase mb-1">
+                            Islamic Tech · 2024
+                        </p>
+                        <h3 class="font-syne font-bold text-sm leading-snug">
+                            Solusi Digital Pengingat Sholat
+                        </h3>
+                    </div>
+                    <div
+                        class="w-7 h-7 rounded-full border border-white/15 bg-surface2 flex items-center justify-center flex-shrink-0 hover:border-orange/40 hover:bg-orange/10 transition-all">
+                        <svg class="w-3.5 h-3.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+                            <path d="M12 5v14M5 12h14" />
+                        </svg>
+                    </div>
+                </div>
             </div>
-            <p
-              class="inline-flex items-center gap-1.5 text-orange text-xs mt-5 font-medium group-hover:gap-3 transition-all">
-              View Project
-              <svg
-                class="w-3 h-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </p>
-          </div>
-        </a>
 
-        <a
-          href="https://www.instagram.com/p/DKEoQQfPS_j"
-          target="_blank"
-          class="work-item all web group border border-white/5 bg-surface rounded-xl overflow-hidden glow-border block">
-          <div
-            class="aspect-video bg-surface2 flex items-center justify-center relative overflow-hidden">
-            <div
-              class="w-16 h-16 rounded-2xl bg-orange/10 border border-orange/20 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-500">
-              🏔️
+            <div class="work-item all web work-card border border-white/8 bg-surface rounded-2xl overflow-hidden p-3 flex flex-col gap-3"
+                onclick="openModal(1)">
+                <div class="relative overflow-hidden rounded-xl h-48 bg-surface2 flex-shrink-0">
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop"
+                        class="card-img w-full h-full object-cover" alt="" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-bg/50 to-transparent"></div>
+                    <span
+                        class="absolute top-3 left-3 text-[10px] font-medium text-orange tracking-widest uppercase border border-orange/25 bg-bg/75 backdrop-blur-sm rounded-full px-3 py-1">Website</span>
+                </div>
+                <div class="flex items-start justify-between px-1 pb-1">
+                    <div class="flex-1 min-w-0 pr-3">
+                        <p class="text-orange text-[10px] font-medium tracking-widest uppercase mb-1">
+                            Tourism · 2024
+                        </p>
+                        <h3 class="font-syne font-bold text-sm leading-snug">
+                            Sistem Informasi Wisata Berbasis Web
+                        </h3>
+                    </div>
+                    <div
+                        class="w-7 h-7 rounded-full border border-white/15 bg-surface2 flex items-center justify-center flex-shrink-0 hover:border-orange/40 hover:bg-orange/10 transition-all">
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M12 5v14M5 12h14" />
+                        </svg>
+                    </div>
+                </div>
             </div>
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-bg/60 to-transparent"></div>
-            <span
-              class="absolute top-4 left-4 text-[10px] font-medium text-orange tracking-widest uppercase border border-orange/30 bg-orange/10 rounded-full px-3 py-1"
-              >Website</span
-            >
-          </div>
-          <div class="p-6">
-            <p
-              class="text-orange text-[11px] font-medium tracking-widest uppercase mb-2">
-              Tourism · 2024
-            </p>
-            <h3
-              class="font-syne font-bold text-lg mb-2 group-hover:text-orange transition-colors">
-              Sistem Informasi Wisata Berbasis Web
-            </h3>
-            <p class="text-ink-muted text-sm font-light leading-relaxed">
-              Digital tourism information platform making local attractions more
-              accessible and discoverable.
-            </p>
-            <div class="flex flex-wrap gap-1.5 mt-4">
-              <span
-                class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
-                >Laravel</span
-              >
-              <span
-                class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
-                >MySQL</span
-              >
-              <span
-                class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
-                >Maps API</span
-              >
-            </div>
-            <p
-              class="inline-flex items-center gap-1.5 text-orange text-xs mt-5 font-medium group-hover:gap-3 transition-all">
-              View Project
-              <svg
-                class="w-3 h-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </p>
-          </div>
-        </a>
 
-        <a
-          href="https://krebetku.com"
-          target="_blank"
-          class="work-item all web umkm group border border-white/5 bg-surface rounded-xl overflow-hidden glow-border block">
-          <div
-            class="aspect-video bg-surface2 flex items-center justify-center relative overflow-hidden">
-            <img src="assets/project/krebet.png" alt="" />
-            <!-- <div
-              class="w-16 h-16 rounded-2xl bg-orange/10 border border-orange/20 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-500">
-              🎟️
-            </div> -->
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-bg/60 to-transparent"></div>
-            <span
-              class="absolute top-4 left-4 text-[10px] font-medium text-orange tracking-widest uppercase border border-orange/30 bg-orange/10 rounded-full px-3 py-1"
-              >Platform</span
-            >
-          </div>
-          <div class="p-6">
-            <p
-              class="text-orange text-[11px] font-medium tracking-widest uppercase mb-2">
-              Booking · 2024
-            </p>
-            <h3
-              class="font-syne font-bold text-lg mb-2 group-hover:text-orange transition-colors">
-              Platform Booking Wisata Krebet
-            </h3>
-            <p class="text-ink-muted text-sm font-light leading-relaxed">
-              End-to-end visit booking and management platform for Desa Wisata
-              Krebet, streamlining visitor management.
-            </p>
-            <div class="flex flex-wrap gap-1.5 mt-4">
-              <span
-                class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
-                >Next.js</span
-              >
-              <span
-                class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
-                >Prisma</span
-              >
-              <span
-                class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
-                >Payment Gateway</span
-              >
+            <div class="work-item all web umkm work-card border border-white/8 bg-surface rounded-2xl overflow-hidden p-3 flex flex-col gap-3"
+                onclick="openModal(2)">
+                <div class="relative overflow-hidden rounded-xl h-48 bg-surface2 flex-shrink-0">
+                    <img src="assets/project/krebet.png" class="card-img w-full h-full object-cover" alt="" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-bg/50 to-transparent"></div>
+                    <span
+                        class="absolute top-3 left-3 text-[10px] font-medium text-orange tracking-widest uppercase border border-orange/25 bg-bg/75 backdrop-blur-sm rounded-full px-3 py-1">Platform</span>
+                </div>
+                <div class="flex items-start justify-between px-1 pb-1">
+                    <div class="flex-1 min-w-0 pr-3">
+                        <p class="text-orange text-[10px] font-medium tracking-widest uppercase mb-1">
+                            Booking · 2024
+                        </p>
+                        <h3 class="font-syne font-bold text-sm leading-snug">
+                            Platform Booking Wisata Krebet
+                        </h3>
+                    </div>
+                    <div
+                        class="w-7 h-7 rounded-full border border-white/15 bg-surface2 flex items-center justify-center flex-shrink-0 hover:border-orange/40 hover:bg-orange/10 transition-all">
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M12 5v14M5 12h14" />
+                        </svg>
+                    </div>
+                </div>
             </div>
-            <p
-              class="inline-flex items-center gap-1.5 text-orange text-xs mt-5 font-medium group-hover:gap-3 transition-all">
-              View Project
-              <svg
-                class="w-3 h-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </p>
-          </div>
-        </a>
 
-        <!-- <a
-          href="#"
-          class="work-item all app group border border-white/5 bg-surface rounded-xl overflow-hidden glow-border block">
-          <div
-            class="aspect-video bg-surface2 flex items-center justify-center relative overflow-hidden">
-            <div
-              class="w-16 h-16 rounded-2xl bg-orange/10 border border-orange/20 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-500">
-              📚
+            <div class="work-item all app work-card border border-white/8 bg-surface rounded-2xl overflow-hidden p-3 flex flex-col gap-3"
+                onclick="openModal(3)">
+                <div class="relative overflow-hidden rounded-xl h-48 bg-surface2 flex-shrink-0">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop"
+                        class="card-img w-full h-full object-cover" alt="" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-bg/50 to-transparent"></div>
+                    <span
+                        class="absolute top-3 left-3 text-[10px] font-medium text-orange tracking-widest uppercase border border-orange/25 bg-bg/75 backdrop-blur-sm rounded-full px-3 py-1">Mobile
+                        App</span>
+                </div>
+                <div class="flex items-start justify-between px-1 pb-1">
+                    <div class="flex-1 min-w-0 pr-3">
+                        <p class="text-orange text-[10px] font-medium tracking-widest uppercase mb-1">
+                            Education · 2023
+                        </p>
+                        <h3 class="font-syne font-bold text-sm leading-snug">
+                            Aplikasi Tugas Akhir Mahasiswa
+                        </h3>
+                    </div>
+                    <div
+                        class="w-7 h-7 rounded-full border border-white/15 bg-surface2 flex items-center justify-center flex-shrink-0 hover:border-orange/40 hover:bg-orange/10 transition-all">
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M12 5v14M5 12h14" />
+                        </svg>
+                    </div>
+                </div>
             </div>
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-bg/60 to-transparent"></div>
-            <span
-              class="absolute top-4 left-4 text-[10px] font-medium text-orange tracking-widest uppercase border border-orange/30 bg-orange/10 rounded-full px-3 py-1"
-              >Mobile App</span
-            >
-          </div>
-          <div class="p-6">
-            <p
-              class="text-orange text-[11px] font-medium tracking-widest uppercase mb-2">
-              Education · 2023
-            </p>
-            <h3
-              class="font-syne font-bold text-lg mb-2 group-hover:text-orange transition-colors">
-              Aplikasi Tugas Akhir Mahasiswa
-            </h3>
-            <p class="text-ink-muted text-sm font-light leading-relaxed">
-              Cross-platform mobile app built for a university final project.
-              Received top grades for design and functionality.
-            </p>
-            <div class="flex flex-wrap gap-1.5 mt-4">
-              <span
-                class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
-                >Flutter</span
-              >
-              <span
-                class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
-                >Firebase</span
-              >
-              <span
-                class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
-                >Dart</span
-              >
-            </div>
-            <p
-              class="inline-flex items-center gap-1.5 text-orange text-xs mt-5 font-medium group-hover:gap-3 transition-all">
-              View Project
-              <svg
-                class="w-3 h-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </p>
-          </div>
-        </a> -->
 
-        <a
-          href="#"
-          class="work-item all umkm group border border-white/5 bg-surface rounded-xl overflow-hidden glow-border block">
-          <div
-            class="aspect-video bg-surface2 flex items-center justify-center relative overflow-hidden">
-            <div
-              class="w-16 h-16 rounded-2xl bg-orange/10 border border-orange/20 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-500">
-              🛍️
+            <div class="work-item all umkm work-card border border-white/8 bg-surface rounded-2xl overflow-hidden p-3 flex flex-col gap-3"
+                onclick="openModal(4)">
+                <div class="relative overflow-hidden rounded-xl h-48 bg-surface2 flex-shrink-0">
+                    <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&h=400&fit=crop"
+                        class="card-img w-full h-full object-cover" alt="" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-bg/50 to-transparent"></div>
+                    <span
+                        class="absolute top-3 left-3 text-[10px] font-medium text-orange tracking-widest uppercase border border-orange/25 bg-bg/75 backdrop-blur-sm rounded-full px-3 py-1">UMKM</span>
+                </div>
+                <div class="flex items-start justify-between px-1 pb-1">
+                    <div class="flex-1 min-w-0 pr-3">
+                        <p class="text-orange text-[10px] font-medium tracking-widest uppercase mb-1">
+                            E-commerce · 2023
+                        </p>
+                        <h3 class="font-syne font-bold text-sm leading-snug">
+                            Toko Online Handmade Craft
+                        </h3>
+                    </div>
+                    <div
+                        class="w-7 h-7 rounded-full border border-white/15 bg-surface2 flex items-center justify-center flex-shrink-0 hover:border-orange/40 hover:bg-orange/10 transition-all">
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M12 5v14M5 12h14" />
+                        </svg>
+                    </div>
+                </div>
             </div>
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-bg/60 to-transparent"></div>
-            <span
-              class="absolute top-4 left-4 text-[10px] font-medium text-orange tracking-widest uppercase border border-orange/30 bg-orange/10 rounded-full px-3 py-1"
-              >UMKM</span
-            >
-          </div>
-          <div class="p-6">
-            <p
-              class="text-orange text-[11px] font-medium tracking-widest uppercase mb-2">
-              E-commerce · 2023
-            </p>
-            <h3
-              class="font-syne font-bold text-lg mb-2 group-hover:text-orange transition-colors">
-              Toko Online Handmade Craft
-            </h3>
-            <p class="text-ink-muted text-sm font-light leading-relaxed">
-              Simple yet effective e-commerce landing page with WhatsApp
-              checkout integration for a local handmade craft business.
-            </p>
-            <div class="flex flex-wrap gap-1.5 mt-4">
-              <span
-                class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
-                >HTML/CSS</span
-              >
-              <span
-                class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
-                >JS</span
-              >
-              <span
-                class="text-[11px] px-2.5 py-1 border border-white/8 rounded-full text-ink-muted"
-                >WhatsApp</span
-              >
-            </div>
-            <p
-              class="inline-flex items-center gap-1.5 text-orange text-xs mt-5 font-medium group-hover:gap-3 transition-all">
-              View Project
-              <svg
-                class="w-3 h-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </p>
-          </div>
-        </a>
 
-        <!-- CTA Card -->
-        <a
-          href="contact.html"
-          class="work-item all group border border-orange/20 bg-orange/5 rounded-xl p-8 flex flex-col justify-between min-h-[280px] hover:bg-orange/10 transition-all glow-border">
-          <div>
-            <p
-              class="text-orange text-xs font-medium tracking-widest uppercase mb-4">
-              Start a Project
-            </p>
-            <h3 class="font-syne font-bold text-2xl mb-3">
-              Your project<br />could be next.
-            </h3>
-            <p class="text-ink-muted text-sm font-light">
-              Let's build something great together. Free consultation, no
-              commitment.
-            </p>
-          </div>
-          <p
-            class="inline-flex items-center gap-2 text-orange font-medium text-sm mt-6 group-hover:gap-4 transition-all">
-            Get in Touch
-            <svg
-              class="w-4 h-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </p>
-        </a>
-      </div>
+            <!-- CTA card -->
+            <div class="work-item all work-card border border-orange/20 bg-orange/5 rounded-2xl p-7 flex flex-col justify-between min-h-[200px]"
+                onclick="window.location = 'contact.html'">
+                <div>
+                    <p class="text-orange text-xs font-medium tracking-widest uppercase mb-3">
+                        Start a Project
+                    </p>
+                    <h3 class="font-syne font-bold text-xl mb-2">
+                        Your project<br />could be next.
+                    </h3>
+                    <p class="text-ink-muted text-sm font-light">
+                        Free consultation, no strings attached.
+                    </p>
+                </div>
+                <p class="inline-flex items-center gap-2 text-orange font-medium text-sm mt-5">
+                    Get in Touch
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                </p>
+            </div>
+        </div>
     </section>
+
+    <!-- OVERLAY -->
+    <div id="overlay" class="fixed inset-0 z-40 bg-black/65 backdrop-blur-md" onclick="closeModal()"></div>
+
+    <!-- MODAL -->
+    <div id="modal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4">
+        <div class="w-full max-w-2xl bg-surface border border-white/10 rounded-t-3xl sm:rounded-3xl flex flex-col overflow-hidden shadow-2xl shadow-black/70"
+            style="max-height: 88vh">
+            <!-- Cover image -->
+            <div class="relative flex-shrink-0">
+                <div class="relative"
+                    style="
+              -webkit-mask-image: linear-gradient(
+                to bottom,
+                black 70%,
+                transparent
+              );
+              mask-image: linear-gradient(to bottom, black 70%, transparent);
+            ">
+                    <img id="modal-img" src="" alt="" class="w-full object-cover object-center"
+                        style="height: 200px" />
+                </div>
+            </div>
+            <!-- Header -->
+            <div class="flex justify-between items-start px-7 pt-2 pb-0 flex-shrink-0">
+                <div>
+                    <p id="modal-cat" class="text-orange text-xs font-medium tracking-widest uppercase mb-1"></p>
+                    <h3 id="modal-title" class="font-syne font-bold text-xl sm:text-2xl leading-tight"></h3>
+                </div>
+                <button onclick="closeModal()" aria-label="Close"
+                    class="w-9 h-9 rounded-full border border-white/15 bg-surface2 flex items-center justify-center hover:border-orange/40 hover:bg-orange/10 transition-all flex-shrink-0 ml-4 mt-1">
+                    <svg id="close-icon" class="w-4 h-4 transition-transform duration-300" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path d="M12 5v14M5 12h14" />
+                    </svg>
+                </button>
+            </div>
+            <!-- Scrollable content -->
+            <div id="modal-body" class="overflow-y-auto flex-1 relative">
+                <div id="modal-content"
+                    class="px-7 py-5 pb-14 text-ink-muted text-sm font-light leading-relaxed space-y-5"></div>
+                <div class="sticky bottom-0 h-12 bg-gradient-to-t from-surface to-transparent pointer-events-none">
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- ── FOOTER ── -->
     <div class="px-4 md:px-8 pb-8 pt-4">
+      <!-- Tape SVG top-left and top-right -->
       <div class="relative">
-        <div class="hidden md:block absolute -top-5 -left-4 z-10 opacity-80">
-          <svg width="76" height="64" viewBox="0 0 95 80" fill="none">
+        <!-- Tape left -->
+        <div class="hidden md:block absolute -top-5 left-20 z-10 opacity-80">
+          <svg
+            width="76"
+            height="64"
+            viewBox="0 0 95 80"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
             <path
               d="M1 45L70.282 5L88.282 36.1769L19 76.1769L1 45Z"
               fill="#F26419"
               opacity="0.8" />
+            <path
+              d="M69.6829 39.997C74.772 36.9233 80.2799 35.022 85.4464 32.0415C85.5584 31.9769 85.6703 31.912 85.782 31.8468L83.9519 38.6769C80.2833 32.3886 75.7064 26.4975 72.2275 20.0846C70.0007 15.9783 67.7966 11.8425 65.6183 7.69261L72.9746 9.66373C70.566 10.9281 68.1526 12.1837 65.7375 13.4301C59.1543 16.828 52.5477 20.1634 45.9059 23.4675C39.2779 26.7637 32.6138 30.0293 25.946 33.2683C21.417 35.4683 16.8774 37.6611 12.3408 39.8468C10.3494 40.8065 8.36335 41.7623 6.37228 42.7203C4.88674 43.4348 3.40117 44.1492 1.91563 44.8637C1.70897 44.9628 1.48389 45.0108 1.28779 44.994C1.0916 44.977 0.940536 44.8975 0.866099 44.7681C0.791689 44.6386 0.798739 44.4674 0.882816 44.289C0.966978 44.111 1.12195 43.9408 1.31146 43.8119C2.68692 42.8791 4.06239 41.9462 5.43785 41.0134C6.96571 39.9774 8.49068 38.9427 10.0185 37.9078L38.8369 70.2599L36.7896 71.4258C36.5175 71.5644 36.2453 71.7032 35.973 71.8416C35.7472 71.9341 35.4976 72.0165 35.2199 72.0788C34.6635 72.2038 34.1132 72.1978 33.5754 72.1917C33.3488 72.1891 33.1241 72.1864 32.9021 72.1937Z"
+              fill="#F26419"
+              opacity="0.5" />
           </svg>
         </div>
+        <!-- Tape right -->
         <div
-          class="hidden md:block absolute -top-5 -right-4 z-10 opacity-80 rotate-90">
-          <svg width="76" height="64" viewBox="0 0 95 80" fill="none">
+          class="hidden md:block absolute -top-5 right-20 z-10 opacity-80 rotate-90">
+          <svg
+            width="76"
+            height="64"
+            viewBox="0 0 95 80"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
             <path
               d="M1 45L70.282 5L88.282 36.1769L19 76.1769L1 45Z"
               fill="#F26419"
               opacity="0.8" />
           </svg>
         </div>
+
         <footer
           class="relative bg-surface border border-white/8 rounded-3xl max-w-6xl mx-auto px-6 md:px-10 py-10">
           <div class="flex flex-col md:flex-row justify-between gap-10">
+            <!-- Brand -->
             <div class="flex flex-col gap-3 max-w-xs">
               <a
                 href="index.html"
-                class="font-syne font-bold text-2xl tracking-tight"
-                >Digital<span class="text-orange">Kita</span></a
-              >
+                class="font-syne font-bold text-2xl tracking-tight">
+                Digital<span class="text-orange">Kita</span>
+              </a>
               <p class="text-ink-muted text-sm font-light leading-relaxed">
-                Web &amp; App Development Studio based in Klaten, Jawa Tengah.
-                We build digital products that actually work.
+                Web & App Development Studio based in Yogyakarta. We build
+                digital products that actually work.
               </p>
+              <!-- Social -->
+              <div class="flex gap-4 mt-2">
+                <a
+                  href="#"
+                  aria-label="Instagram"
+                  class="w-9 h-9 rounded-lg border border-white/8 bg-white/5 flex items-center justify-center text-ink-muted hover:text-orange hover:border-orange/30 transition-all">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                  </svg>
+                </a>
+                <a
+                  href="#"
+                  aria-label="LinkedIn"
+                  class="w-9 h-9 rounded-lg border border-white/8 bg-white/5 flex items-center justify-center text-ink-muted hover:text-orange hover:border-orange/30 transition-all">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                  </svg>
+                </a>
+                <a
+                  href="#"
+                  aria-label="GitHub"
+                  class="w-9 h-9 rounded-lg border border-white/8 bg-white/5 flex items-center justify-center text-ink-muted hover:text-orange hover:border-orange/30 transition-all">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                  </svg>
+                </a>
+              </div>
             </div>
+
+            <!-- Links -->
             <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
               <div class="flex flex-col gap-3">
                 <h4
@@ -567,19 +566,23 @@
                     href="index.html"
                     class="text-ink-muted font-light hover:text-orange transition-colors"
                     >Home</a
-                  ><a
+                  >
+                  <a
                     href="services.html"
                     class="text-ink-muted font-light hover:text-orange transition-colors"
                     >Services</a
-                  ><a
+                  >
+                  <a
                     href="work.html"
                     class="text-ink-muted font-light hover:text-orange transition-colors"
                     >Our Work</a
-                  ><a
+                  >
+                  <a
                     href="about.html"
                     class="text-ink-muted font-light hover:text-orange transition-colors"
                     >About</a
-                  ><a
+                  >
+                  <a
                     href="contact.html"
                     class="text-ink-muted font-light hover:text-orange transition-colors"
                     >Contact</a
@@ -595,19 +598,27 @@
                   <a
                     href="services.html"
                     class="text-ink-muted font-light hover:text-orange transition-colors"
-                    >Web Dev</a
-                  ><a
+                    >Web Development</a
+                  >
+                  <a
                     href="services.html"
                     class="text-ink-muted font-light hover:text-orange transition-colors"
-                    >App Dev</a
-                  ><a
+                    >App Development</a
+                  >
+                  <a
                     href="services.html"
                     class="text-ink-muted font-light hover:text-orange transition-colors"
                     >UI/UX Design</a
-                  ><a
+                  >
+                  <a
                     href="services.html"
                     class="text-ink-muted font-light hover:text-orange transition-colors"
                     >UMKM Solutions</a
+                  >
+                  <a
+                    href="services.html"
+                    class="text-ink-muted font-light hover:text-orange transition-colors"
+                    >Maintenance</a
                   >
                 </div>
               </div>
@@ -618,29 +629,33 @@
                 </h4>
                 <div class="flex flex-col gap-2 text-sm">
                   <a
-                    href="mailto:hello@digitalkita.id"
+                    href="mailto:digital.kita15@gmail.com"
                     class="text-ink-muted font-light hover:text-orange transition-colors"
-                    >hello@digitalkita.id</a
-                  ><span class="text-ink-muted font-light"
-                    >Klaten, Jawa Tengah 🇮🇩</span
-                  ><a
-                    href="contact.html"
-                    class="text-orange text-xs font-medium mt-1 hover:underline"
-                    >Get in touch →</a
+                    >digital.kita15@gmail.com</a
                   >
+                  <span class="text-ink-muted font-light">Yogyakarta</span>
+                  <span class="text-ink-muted font-light">Indonesia 🇮🇩</span>
+                  <a
+                    href="contact.html"
+                    class="inline-flex items-center gap-1.5 text-orange text-xs font-medium mt-1 hover:gap-2.5 transition-all">
+                    Get in touch →
+                  </a>
                 </div>
               </div>
             </div>
           </div>
         </footer>
       </div>
+
+      <!-- Bottom bar -->
       <div
         class="max-w-6xl mx-auto mt-4 px-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-ink-muted font-light">
         <p>© 2025 Digital Kita. All rights reserved.</p>
         <div class="flex gap-5">
           <a href="#" class="hover:text-orange transition-colors"
             >Privacy Policy</a
-          ><a href="#" class="hover:text-orange transition-colors"
+          >
+          <a href="#" class="hover:text-orange transition-colors"
             >Terms of Service</a
           >
         </div>
@@ -648,81 +663,219 @@
     </div>
 
     <script>
-      gsap.registerPlugin(ScrollTrigger);
-      gsap
-        .timeline({ delay: 0.1 })
-        .to("#eyebrow", { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" })
-        .to(
-          "#pageTitle",
-          { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" },
-          "-=0.3",
-        )
-        .to(
-          "#pageSub",
-          { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
-          "-=0.4",
-        )
-        .to(
-          "#filters",
-          { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" },
-          "-=0.3",
-        );
+        gsap.registerPlugin(ScrollTrigger);
 
-      gsap.utils.toArray(".work-item").forEach((el, i) => {
-        gsap.fromTo(
-          el,
-          { opacity: 0, y: 24 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.6,
-            ease: "power3.out",
-            scrollTrigger: { trigger: el, start: "top 88%" },
-            delay: (i % 2) * 0.1,
-          },
-        );
-      });
+        const projects = [{
+                title: "Solusi Digital Pengingat Sholat",
+                cat: "Islamic Tech · Web App · 2024",
+                img: "assets/project/sholat-reminder.png",
+                about: "A WhatsApp-based prayer time notification system helping Muslims across Indonesia stay consistent with their daily prayers. Users subscribe via WhatsApp and receive automatic alerts at each of the 5 daily prayer times, tailored to their city.",
+                background: "A small Islamic tech community in Klaten noticed that many people missed prayers due to being busy. They wanted a zero-friction solution that works on any phone without needing a dedicated app install.",
+                service: "Web Development · Backend API · Fonnte WhatsApp API Integration · Filament · MySQL",
+                challenge: "Handling thousands of concurrent WhatsApp messages without hitting rate limits. We built a message queuing system with retry logic and regional time zone handling for accurate prayer schedules across all Indonesian cities.",
+                impact: "Developed and launched a WhatsApp-based notification system for a village community. Achieved a 40% increase in communal prayer attendance by streamlining schedule accessibility for local residents.",
+                stack: [
+                    "Laravel",
+                    "Filament",
+                    "MySQL",
+                    "Fonnte WhatsApp API",
+                    "Bootstrap CSS",
+                ],
+            },
+            {
+                title: "Sistem Informasi Wisata Berbasis Web",
+                cat: "Tourism · Website · 2024",
+                img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop",
+                about: "A digital tourism platform for a local district in Central Java, making it easy for visitors to discover, explore, and plan trips to local natural and cultural attractions.",
+                background: "The local government had no digital presence. Potential visitors couldn't find reliable information, opening hours, or directions — everything was word of mouth.",
+                service: "Web Development · Custom CMS · Laravel · Google Maps API Integration",
+                challenge: "The platform needed to be managed by non-technical government staff. We built a simple CMS with drag-and-drop content editing, image upload, and Google Maps integration that non-developers could update easily.",
+                impact: "35+ tourist spots listed. 1,200+ monthly visitors. Tourism office reported a 28% increase in visitor inquiries after launch.",
+                stack: [
+                    "Laravel",
+                    "MySQL",
+                    "Google Maps API",
+                    "TailwindCSS",
+                    "Shared Hosting",
+                ],
+            },
+            {
+                title: "Platform Booking Wisata Krebet",
+                cat: "Booking Platform · 2024",
+                img: "assets/project/krebet.png",
+                about: "An end-to-end visit booking and management platform for Desa Wisata Krebet — a cultural village in Bantul, Yogyakarta. Visitors browse packages, check availability, and book visits online.",
+                background: "All bookings were previously handled manually via WhatsApp and phone. The management was overwhelmed during peak seasons, often double-booking groups and losing revenue from no-shows.",
+                service: "Full-stack Web Development · Admin Dashboard · Laravel · Inspinia",
+                challenge: "Integrating reliable Indonesian payment methods (bank transfer, GoPay, OVO, QRIS) while keeping the admin dashboard simple enough for village staff without formal training.",
+                impact: "Zero booking errors post-launch. Online revenue +55% in Q1. Admin coordination time reduced by 70%.",
+                stack: [
+                    "Laravel",
+                    "Inspinia",
+                    "Bootstrap CSS",
+                    "MySQL",
+                    "Shared Hosting",
+                ],
+            },
+            {
+                title: "Aplikasi Tugas Akhir Mahasiswa",
+                cat: "Education · Mobile App · 2023",
+                img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=400&fit=crop",
+                about: "A cross-platform Flutter mobile app built for a university student's final project. The app is a digital inventory management system for a small UMKM with product catalog, stock tracking, and sales reporting.",
+                background: "The student was struggling with UI/UX and API integration. We collaborated closely — teaching as we built, so they could explain and defend the code during their examination.",
+                service: "Flutter App Development · REST API (Laravel) · Firebase Authentication · UI/UX Design",
+                challenge: "Balancing a tight academic deadline with proper code quality. The student needed to understand every line of code for their exam. We pair-coded key sections and documented architecture clearly.",
+                impact: "Student received an A grade. The examination panel was impressed with UI polish and feature completeness. 3 classmates subsequently reached out to work with us.",
+                stack: ["Flutter", "Dart", "Laravel API", "Firebase Auth", "MySQL"],
+            },
+            {
+                title: "Toko Online Handmade Craft",
+                cat: "UMKM · E-commerce · 2023",
+                img: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=800&h=400&fit=crop",
+                about: "A mobile-first e-commerce landing page for a local handmade craft seller in Klaten. Features a product gallery, detail pages, and a WhatsApp checkout flow optimized for mobile buyers.",
+                background: "The owner was selling exclusively through Instagram DMs. They wanted a more professional presence that showcases products and converts browsers into buyers more effectively.",
+                service: "Landing Page · Product Gallery · WhatsApp Checkout Integration · SEO Optimization",
+                challenge: "Building a visually rich showcase that loads fast on slow 4G connections — common among buyers in smaller cities — without sacrificing the premium craft aesthetic.",
+                impact: 'Monthly inquiries 3x. Customers arrive "already decided to buy." Bounce rate dropped significantly after speed optimizations.',
+                stack: [
+                    "HTML/CSS",
+                    "Vanilla JS",
+                    "Netlify",
+                    "WhatsApp API",
+                    "Google Analytics",
+                ],
+            },
+        ];
 
-      // Filter
-      document.querySelectorAll(".filter-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          document
-            .querySelectorAll(".filter-btn")
-            .forEach((b) => b.classList.remove("active", "text-white"));
-          btn.classList.add("active");
-          const f = btn.dataset.filter;
-          document.querySelectorAll(".work-item").forEach((item) => {
-            const show = f === "all" || item.classList.contains(f);
-            gsap.to(item, {
-              opacity: show ? 1 : 0.2,
-              scale: show ? 1 : 0.97,
-              duration: 0.3,
-              pointerEvents: show ? "auto" : "none",
+        function openModal(idx) {
+            const p = projects[idx];
+            document.getElementById("modal-img").src = p.img;
+            document.getElementById("modal-img").alt = p.title;
+            document.getElementById("modal-cat").textContent = p.cat;
+            document.getElementById("modal-title").textContent = p.title;
+            const pills = p.stack
+                .map(
+                    (s) =>
+                    `<span class="inline-block text-[11px] px-2.5 py-1 border border-white/10 rounded-full text-ink-muted">${s}</span>`,
+                )
+                .join("");
+            const sec = (label, content) =>
+                `<div><h4 class="font-syne font-semibold text-xs text-orange tracking-widest uppercase mb-2">${label}</h4><p class="text-ink-muted text-sm font-light leading-relaxed">${content}</p></div>`;
+            document.getElementById("modal-content").innerHTML = `
+    ${sec("About", p.about)}
+    ${sec("Brand Background", p.background)}
+    ${sec("What We Did", p.service)}
+    ${sec("Challenge", p.challenge)}
+    ${sec("Impact", p.impact)}
+    <div><h4 class="font-syne font-semibold text-xs text-orange tracking-widest uppercase mb-3">Tech Stack</h4><div class="flex flex-wrap gap-2">${pills}</div></div>
+    <div class="pt-2 pb-4"><a href="contact.html" class="inline-flex items-center gap-2 px-5 py-2.5 bg-orange text-white text-sm font-medium rounded-lg hover:bg-orange-light transition-all">Start a Similar Project <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a></div>
+  `;
+            document.getElementById("modal-body").scrollTop = 0;
+            document.getElementById("overlay").classList.add("show");
+            document.getElementById("modal").classList.add("show");
+            document.getElementById("close-icon").style.transform = "rotate(45deg)";
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeModal() {
+            document.getElementById("overlay").classList.remove("show");
+            document.getElementById("modal").classList.remove("show");
+            document.getElementById("close-icon").style.transform = "rotate(0)";
+            document.body.style.overflow = "";
+        }
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") closeModal();
+        });
+
+        gsap
+            .timeline({
+                delay: 0.1
+            })
+            .to("#eyebrow", {
+                opacity: 1,
+                y: 0,
+                duration: 0.5,
+                ease: "power3.out"
+            })
+            .to(
+                "#pageTitle", {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.7,
+                    ease: "power3.out"
+                },
+                "-=0.3",
+            )
+            .to(
+                "#pageSub", {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    ease: "power3.out"
+                },
+                "-=0.4",
+            )
+            .to(
+                "#filters", {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.4,
+                    ease: "power3.out"
+                },
+                "-=0.3",
+            );
+
+        gsap.utils.toArray(".work-item").forEach((el, i) => {
+            gsap.fromTo(
+                el, {
+                    opacity: 0,
+                    y: 24
+                }, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: el,
+                        start: "top 88%"
+                    },
+                    delay: (i % 3) * 0.1,
+                },
+            );
+        });
+
+        document.querySelectorAll(".filter-btn").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                document
+                    .querySelectorAll(".filter-btn")
+                    .forEach((b) => b.classList.remove("active"));
+                btn.classList.add("active");
+                const f = btn.dataset.filter;
+                document.querySelectorAll(".work-item").forEach((item) => {
+                    const show = f === "all" || item.classList.contains(f);
+                    gsap.to(item, {
+                        opacity: show ? 1 : 0.15,
+                        scale: show ? 1 : 0.97,
+                        duration: 0.3,
+                        pointerEvents: show ? "auto" : "none",
+                    });
+                });
             });
-          });
         });
-      });
 
-      document.querySelectorAll(".glow-border").forEach((card) => {
-        card.addEventListener("mousemove", (e) => {
-          const r = card.getBoundingClientRect();
-          gsap.to(card, {
-            rotateX: -((e.clientY - r.top) / r.height - 0.5) * 4,
-            rotateY: ((e.clientX - r.left) / r.width - 0.5) * 4,
-            duration: 0.4,
-            ease: "power2.out",
-            transformPerspective: 800,
-          });
+        ScrollTrigger.create({
+            start: "top -80",
+            onUpdate: (self) => {
+                const nav = document.getElementById("navbar");
+                if (self.progress > 0) {
+                    nav.classList.add("scrolled");
+                    nav.classList.remove("border-b", "border-white/5");
+                } else {
+                    nav.classList.remove("scrolled");
+                    nav.classList.add("border-b", "border-white/5");
+                }
+            },
         });
-        card.addEventListener("mouseleave", () =>
-          gsap.to(card, {
-            rotateX: 0,
-            rotateY: 0,
-            duration: 0.5,
-            ease: "power2.out",
-          }),
-        );
-      });
     </script>
-  </body>
+</body>
+
 </html>
