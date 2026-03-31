@@ -278,68 +278,29 @@
         pointer-events: none;
       }
 
-      /* Testimonial columns scroll */
-      .testi-mask {
-        -webkit-mask-image: linear-gradient(
-          to bottom,
-          transparent,
-          black 12%,
-          black 88%,
-          transparent
-        );
-        mask-image: linear-gradient(
-          to bottom,
-          transparent,
-          black 12%,
-          black 88%,
-          transparent
-        );
+      /* Nav — header-2 style: floating pill on scroll */
+      #navbar {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       }
-      @keyframes scrollUp {
-        from {
-          transform: translateY(0);
-        }
-        to {
-          transform: translateY(-50%);
-        }
-      }
-      @keyframes scrollDown {
-        from {
-          transform: translateY(-50%);
-        }
-        to {
-          transform: translateY(0);
-        }
-      }
-      .testi-col-1 {
-        animation: scrollUp 18s linear infinite;
-      }
-      .testi-col-2 {
-        animation: scrollDown 22s linear infinite;
-      }
-      .testi-col-3 {
-        animation: scrollUp 16s linear infinite;
-      }
-      .testi-col-1:hover,
-      .testi-col-2:hover,
-      .testi-col-3:hover {
-        animation-play-state: paused;
-      }
-
-      /* Nav shrink */
-      nav.shrunk {
+      #navbar.scrolled {
         padding-top: 10px !important;
         padding-bottom: 10px !important;
+        border-color: rgba(255, 255, 255, 0.08) !important;
+        background: rgba(10, 10, 10, 0.95) !important;
       }
       @media (min-width: 768px) {
-        nav.shrunk {
+        #navbar.scrolled {
           max-width: 860px;
-          margin-left: auto;
-          margin-right: auto;
-          border-radius: 12px;
-          top: 12px;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+          left: 50%;
+          transform: translateX(-50%);
+          top: 12px !important;
+          border-radius: 999px !important;
+          border: 1px solid rgba(255, 255, 255, 0.1) !important;
+          box-shadow:
+            0 8px 40px rgba(0, 0, 0, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+          padding-left: 24px !important;
+          padding-right: 24px !important;
         }
       }
     </style>
@@ -805,7 +766,7 @@
         <div class="stat-item bg-surface p-8 md:p-10">
           <p
             class="font-syne font-bold text-4xl md:text-5xl tracking-tight mb-2 count-up"
-            data-target="5">
+            data-target="25">
             0<span class="text-orange">+</span>
           </p>
           <p class="text-ink-muted text-sm font-light">Projects Delivered</p>
@@ -813,7 +774,7 @@
         <div class="stat-item bg-surface p-8 md:p-10">
           <p
             class="font-syne font-bold text-4xl md:text-5xl tracking-tight mb-2 count-up"
-            data-target="4">
+            data-target="20">
             0<span class="text-orange">+</span>
           </p>
           <p class="text-ink-muted text-sm font-light">Happy Clients</p>
@@ -821,7 +782,7 @@
         <div class="stat-item bg-surface p-8 md:p-10">
           <p
             class="font-syne font-bold text-4xl md:text-5xl tracking-tight mb-2 count-up"
-            data-target="2">
+            data-target="3">
             0<span class="text-orange">+</span>
           </p>
           <p class="text-ink-muted text-sm font-light">Years Experience</p>
@@ -1005,7 +966,10 @@
           <div
             class="aspect-video bg-surface2 flex items-center justify-center relative overflow-hidden">
             <img src="assets/project/sholat-reminder.png" alt="" />
-            <!-- <div class="w-16 h-16 rounded-2xl bg-orange/10 border border-orange/20 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-500">🕌</div> -->
+            <!-- <div
+              class="w-16 h-16 rounded-2xl bg-orange/10 border border-orange/20 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-500">
+              🕌
+            </div> -->
             <div
               class="absolute inset-0 bg-gradient-to-t from-bg/60 to-transparent"></div>
           </div>
@@ -1071,7 +1035,10 @@
             <div
               class="h-36 bg-surface2 flex items-center justify-center relative overflow-hidden">
               <img src="assets/project/krebet.png" alt="" />
-              <!-- <div class="w-12 h-12 rounded-xl bg-orange/10 border border-orange/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-500">🎟️</div> -->
+              <!-- <div
+                class="w-12 h-12 rounded-xl bg-orange/10 border border-orange/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-500">
+                🎟️
+              </div> -->
             </div>
             <div class="p-5">
               <p
@@ -1094,389 +1061,142 @@
     <!-- ── TESTIMONIALS ── -->
     <section
       id="testimonials"
-      class="py-20 border-t border-white/5 overflow-hidden">
-      <!-- Header -->
-      <div
-        class="px-6 md:px-12 lg:px-20 flex flex-col items-center text-center mb-14">
-        <div
-          class="inline-flex items-center gap-2 border border-white/10 bg-white/5 rounded-full px-4 py-1.5 mb-5 gsap-fadeup">
-          <span
-            class="text-xs font-semibold uppercase tracking-widest text-ink-muted"
-            >Client Stories</span
-          >
-        </div>
-        <h2
-          class="font-syne font-bold leading-tight tracking-tight mb-4 gsap-fadeup"
-          style="font-size: clamp(2rem, 4vw, 3.5rem)">
-          What our <span class="text-orange">clients say.</span>
-        </h2>
-        <p
-          class="text-ink-muted text-base font-light max-w-sm leading-relaxed gsap-fadeup">
-          Discover how businesses across Indonesia level up with Digital Kita.
-        </p>
-      </div>
-
-      <!-- 3-column scrolling testimonials -->
-      <div
-        class="flex justify-center gap-5 px-4 overflow-hidden testi-mask"
-        style="max-height: 680px">
-        <!-- Column 1 — scroll up -->
-        <div class="testi-col-1 flex flex-col gap-5 w-72 flex-shrink-0">
-          <!-- Card -->
+      class="py-20 px-6 md:px-12 lg:px-20 border-t border-white/5">
+      <div class="mx-auto max-w-6xl">
+        <!-- Header -->
+        <div class="mx-auto max-w-xl text-center mb-14 gsap-fadeup">
           <div
-            class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
-            <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
-              "Digital Kita delivered our website faster than expected. Very
-              professional team, responsive communication throughout."
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face"
-                class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20"
-                alt="Ahmad Ridwan" />
-              <div>
-                <p class="text-sm font-medium">Ahmad Ridwan</p>
-                <p class="text-ink-muted text-xs font-light">
-                  Owner, UMKM Batik Klaten
-                </p>
-              </div>
-            </div>
+            class="inline-flex items-center gap-2 border border-white/10 bg-white/5 rounded-full px-4 py-1.5 mb-5">
+            <span
+              class="text-xs font-semibold uppercase tracking-widest text-ink-muted"
+              >Client Stories</span
+            >
           </div>
-          <div
-            class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
-            <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
-              "Sangat puas! Website kami kini tampil lebih profesional dan
-              pengunjung meningkat drastis. Recommended banget!"
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&crop=face"
-                class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20"
-                alt="Dewi Nur" />
-              <div>
-                <p class="text-sm font-medium">Dewi Nur</p>
-                <p class="text-ink-muted text-xs font-light">
-                  Founder, Toko Online Handmade
-                </p>
-              </div>
-            </div>
-          </div>
-          <div
-            class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
-            <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
-              "Mereka benar-benar memahami apa yang kami butuhkan. Hasilnya
-              melebihi ekspektasi kami, tampilan profesional!"
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face"
-                class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20"
-                alt="Farhan Siddiqui" />
-              <div>
-                <p class="text-sm font-medium">Farhan Siddiqui</p>
-                <p class="text-ink-muted text-xs font-light">
-                  Manager, Toko Digital
-                </p>
-              </div>
-            </div>
-          </div>
-          <!-- Duplicate for seamless loop -->
-          <div
-            class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
-            <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
-              "Digital Kita delivered our website faster than expected. Very
-              professional team, responsive communication throughout."
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face"
-                class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20"
-                alt="Ahmad Ridwan" />
-              <div>
-                <p class="text-sm font-medium">Ahmad Ridwan</p>
-                <p class="text-ink-muted text-xs font-light">
-                  Owner, UMKM Batik Klaten
-                </p>
-              </div>
-            </div>
-          </div>
-          <div
-            class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
-            <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
-              "Sangat puas! Website kami kini tampil lebih profesional dan
-              pengunjung meningkat drastis. Recommended banget!"
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&crop=face"
-                class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20"
-                alt="Dewi Nur" />
-              <div>
-                <p class="text-sm font-medium">Dewi Nur</p>
-                <p class="text-ink-muted text-xs font-light">
-                  Founder, Toko Online Handmade
-                </p>
-              </div>
-            </div>
-          </div>
-          <div
-            class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
-            <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
-              "Mereka benar-benar memahami apa yang kami butuhkan. Hasilnya
-              melebihi ekspektasi kami, tampilan profesional!"
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face"
-                class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20"
-                alt="Farhan Siddiqui" />
-              <div>
-                <p class="text-sm font-medium">Farhan Siddiqui</p>
-                <p class="text-ink-muted text-xs font-light">
-                  Manager, Toko Digital
-                </p>
-              </div>
-            </div>
-          </div>
+          <h2
+            class="font-syne font-bold leading-tight tracking-tight mb-4"
+            style="font-size: clamp(1.8rem, 3.5vw, 3rem)">
+            Built by us, <span class="text-orange">loved by clients.</span>
+          </h2>
+          <p class="text-ink-muted font-light leading-relaxed">
+            Discover how businesses across Indonesia level up with Digital Kita.
+          </p>
         </div>
 
-        <!-- Column 2 — scroll down (reverse), hidden on mobile -->
-        <div
-          class="testi-col-2 hidden md:flex flex-col gap-5 w-72 flex-shrink-0">
+        <!-- Grid — inspired by testimonials.tsx: 1 large featured + smaller cards -->
+        <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-rows-2">
+          <!-- Featured large card — spans 2 cols, 2 rows -->
           <div
-            class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
-            <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
-              "The booking platform has significantly improved visitor
-              management at our village. Clean design, easy to use."
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face"
-                class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20"
-                alt="Sari Widayanti" />
-              <div>
-                <p class="text-sm font-medium">Sari Widayanti</p>
-                <p class="text-ink-muted text-xs font-light">
-                  Pengelola, Desa Wisata Krebet
-                </p>
+            class="gsap-fadeup border border-white/5 bg-surface rounded-2xl p-7 grid grid-rows-[auto_1fr] gap-6 sm:col-span-2 lg:row-span-2 hover:border-orange/30 transition-all">
+            <div class="flex items-center gap-2">
+              <span
+                class="w-6 h-6 rounded-full bg-orange/15 border border-orange/25 flex items-center justify-center text-orange text-xs"
+                >★</span
+              >
+              <span
+                class="text-orange text-xs font-medium tracking-widest uppercase"
+                >Featured Review</span
+              >
+            </div>
+            <div class="grid grid-rows-[1fr_auto] gap-6 h-full">
+              <p class="text-base font-light leading-relaxed text-ink/90">
+                "Digital Kita benar-benar mengubah cara kami beroperasi secara
+                digital. Website yang mereka buat tampil profesional, cepat, dan
+                mudah dikelola. Tim mereka sangat responsif — setiap pertanyaan
+                kami dijawab dengan cepat dan jelas. Investasi terbaik yang
+                pernah kami lakukan untuk bisnis!"
+              </p>
+              <div class="flex items-center gap-3">
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=face"
+                  class="w-12 h-12 rounded-full object-cover ring-2 ring-orange/20 flex-shrink-0"
+                  alt="Ahmad Ridwan" />
+                <div>
+                  <cite class="text-sm font-semibold not-italic block"
+                    >Ahmad Ridwan</cite
+                  >
+                  <span class="text-ink-muted text-xs font-light"
+                    >Owner, UMKM Batik Klaten</span
+                  >
+                </div>
               </div>
             </div>
           </div>
-          <div
-            class="testi-card border border-orange/15 bg-orange/5 rounded-2xl p-6 cursor-default hover:border-orange/40 transition-all">
-            <p class="text-ink/80 text-sm font-light leading-relaxed mb-5">
-              "I needed a final project app that was functional AND
-              well-designed. The Flutter app they built got an A from my
-              professor!"
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face"
-                class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/30"
-                alt="Muhammad Faiz" />
-              <div>
-                <p class="text-sm font-medium">Muhammad Faiz</p>
-                <p class="text-ink-muted text-xs font-light">
-                  Mahasiswa, UNY Yogyakarta
-                </p>
-              </div>
-            </div>
-          </div>
-          <div
-            class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
-            <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
-              "Support-nya luar biasa! Setiap pertanyaan direspon cepat. Tim
-              yang sangat berdedikasi dan profesional."
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=face"
-                class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20"
-                alt="Zainab H" />
-              <div>
-                <p class="text-sm font-medium">Zainab Husna</p>
-                <p class="text-ink-muted text-xs font-light">
-                  Project Manager, Startup Lokal
-                </p>
-              </div>
-            </div>
-          </div>
-          <!-- Duplicates -->
-          <div
-            class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
-            <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
-              "The booking platform has significantly improved visitor
-              management at our village. Clean design, easy to use."
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face"
-                class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20"
-                alt="Sari Widayanti" />
-              <div>
-                <p class="text-sm font-medium">Sari Widayanti</p>
-                <p class="text-ink-muted text-xs font-light">
-                  Pengelola, Desa Wisata Krebet
-                </p>
-              </div>
-            </div>
-          </div>
-          <div
-            class="testi-card border border-orange/15 bg-orange/5 rounded-2xl p-6 cursor-default hover:border-orange/40 transition-all">
-            <p class="text-ink/80 text-sm font-light leading-relaxed mb-5">
-              "I needed a final project app that was functional AND
-              well-designed. The Flutter app they built got an A from my
-              professor!"
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face"
-                class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/30"
-                alt="Muhammad Faiz" />
-              <div>
-                <p class="text-sm font-medium">Muhammad Faiz</p>
-                <p class="text-ink-muted text-xs font-light">
-                  Mahasiswa, UNY Yogyakarta
-                </p>
-              </div>
-            </div>
-          </div>
-          <div
-            class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
-            <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
-              "Support-nya luar biasa! Setiap pertanyaan direspon cepat. Tim
-              yang sangat berdedikasi dan profesional."
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=face"
-                class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20"
-                alt="Zainab H" />
-              <div>
-                <p class="text-sm font-medium">Zainab Husna</p>
-                <p class="text-ink-muted text-xs font-light">
-                  Project Manager, Startup Lokal
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <!-- Column 3 — scroll up again, hidden below lg -->
-        <div
-          class="testi-col-3 hidden lg:flex flex-col gap-5 w-72 flex-shrink-0">
+          <!-- Wide card — spans 2 cols -->
           <div
-            class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
-            <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
-              "Website yang dibuat Digital Kita sangat cepat loadingnya,
-              SEO-friendly, dan tampilan mobilenya sempurna!"
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80&h=80&fit=crop&crop=face"
-                class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20"
-                alt="Aliza K" />
-              <div>
-                <p class="text-sm font-medium">Aliza Kirana</p>
-                <p class="text-ink-muted text-xs font-light">
-                  CEO, Brand Lokal Jogja
-                </p>
+            class="gsap-fadeup border border-white/5 bg-surface rounded-2xl p-6 md:col-span-2 hover:border-orange/30 transition-all">
+            <div class="grid grid-rows-[1fr_auto] gap-5 h-full">
+              <p class="text-sm font-light leading-relaxed text-ink/80">
+                "The booking platform improved our visitor management
+                completely. Clean design, easy to use, and the support team
+                never stops helping. Highly recommended for any tourism
+                business!"
+              </p>
+              <div class="flex items-center gap-3">
+                <img
+                  src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=96&h=96&fit=crop&crop=face"
+                  class="w-11 h-11 rounded-full object-cover ring-2 ring-orange/20 flex-shrink-0"
+                  alt="Sari Widayanti" />
+                <div>
+                  <cite class="text-sm font-semibold not-italic block"
+                    >Sari Widayanti</cite
+                  >
+                  <span class="text-ink-muted text-xs font-light"
+                    >Pengelola, Desa Wisata Krebet</span
+                  >
+                </div>
               </div>
             </div>
           </div>
+
+          <!-- Small card -->
           <div
-            class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
-            <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
-              "Proses kerjasamanya transparan, selalu update progress, dan
-              hasilnya benar-benar sesuai brief. Mantap!"
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face"
-                class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20"
-                alt="Briana P" />
-              <div>
-                <p class="text-sm font-medium">Briana Putri</p>
-                <p class="text-ink-muted text-xs font-light">
-                  Marketing Director
-                </p>
+            class="gsap-fadeup border border-white/5 bg-surface rounded-2xl p-6 hover:border-orange/30 transition-all">
+            <div class="grid grid-rows-[1fr_auto] gap-5 h-full">
+              <p class="text-sm font-light leading-relaxed text-ink/80">
+                "The Flutter app they built got an A from my professor.
+                Functional, well-designed, and they taught me how the code
+                works. Amazing team!"
+              </p>
+              <div class="flex items-center gap-3">
+                <img
+                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=96&h=96&fit=crop&crop=face"
+                  class="w-11 h-11 rounded-full object-cover ring-2 ring-orange/20 flex-shrink-0"
+                  alt="Muhammad Faiz" />
+                <div>
+                  <cite class="text-sm font-semibold not-italic block"
+                    >Muhammad Faiz</cite
+                  >
+                  <span class="text-ink-muted text-xs font-light"
+                    >Mahasiswa, UNY Yogyakarta</span
+                  >
+                </div>
               </div>
             </div>
           </div>
+
+          <!-- Small card — orange accent -->
           <div
-            class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
-            <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
-              "App Flutter yang mereka buat sangat smooth, UI-nya keren, dan
-              fitur-fiturnya berjalan sempurna. 10/10!"
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&h=80&fit=crop&crop=face"
-                class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20"
-                alt="Hassan A" />
-              <div>
-                <p class="text-sm font-medium">Hassan Ali</p>
-                <p class="text-ink-muted text-xs font-light">
-                  Tech Lead, E-commerce
-                </p>
-              </div>
-            </div>
-          </div>
-          <!-- Duplicates -->
-          <div
-            class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
-            <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
-              "Website yang dibuat Digital Kita sangat cepat loadingnya,
-              SEO-friendly, dan tampilan mobilenya sempurna!"
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80&h=80&fit=crop&crop=face"
-                class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20"
-                alt="Aliza K" />
-              <div>
-                <p class="text-sm font-medium">Aliza Kirana</p>
-                <p class="text-ink-muted text-xs font-light">
-                  CEO, Brand Lokal Jogja
-                </p>
-              </div>
-            </div>
-          </div>
-          <div
-            class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
-            <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
-              "Proses kerjasamanya transparan, selalu update progress, dan
-              hasilnya benar-benar sesuai brief. Mantap!"
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face"
-                class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20"
-                alt="Briana P" />
-              <div>
-                <p class="text-sm font-medium">Briana Putri</p>
-                <p class="text-ink-muted text-xs font-light">
-                  Marketing Director
-                </p>
-              </div>
-            </div>
-          </div>
-          <div
-            class="testi-card border border-white/8 bg-surface rounded-2xl p-6 cursor-default hover:border-orange/30 hover:shadow-lg hover:shadow-orange/5 transition-all">
-            <p class="text-ink-muted text-sm font-light leading-relaxed mb-5">
-              "App Flutter yang mereka buat sangat smooth, UI-nya keren, dan
-              fitur-fiturnya berjalan sempurna. 10/10!"
-            </p>
-            <div class="flex items-center gap-3">
-              <img
-                src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&h=80&fit=crop&crop=face"
-                class="w-9 h-9 rounded-full object-cover ring-2 ring-orange/20"
-                alt="Hassan A" />
-              <div>
-                <p class="text-sm font-medium">Hassan Ali</p>
-                <p class="text-ink-muted text-xs font-light">
-                  Tech Lead, E-commerce
-                </p>
+            class="gsap-fadeup border border-orange/20 bg-orange/5 rounded-2xl p-6 hover:border-orange/40 transition-all">
+            <div class="grid grid-rows-[1fr_auto] gap-5 h-full">
+              <p class="text-sm font-light leading-relaxed text-ink/80">
+                "Sangat puas! Website kami kini tampil lebih profesional dan
+                pengunjung meningkat drastis sejak relaunch. Recommended banget
+                buat yang mau buat website!"
+              </p>
+              <div class="flex items-center gap-3">
+                <img
+                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=96&h=96&fit=crop&crop=face"
+                  class="w-11 h-11 rounded-full object-cover ring-2 ring-orange/30 flex-shrink-0"
+                  alt="Dewi Nur" />
+                <div>
+                  <cite class="text-sm font-semibold not-italic block"
+                    >Dewi Nur</cite
+                  >
+                  <span class="text-orange/70 text-xs font-light"
+                    >Founder, Toko Online Handmade</span
+                  >
+                </div>
               </div>
             </div>
           </div>
@@ -1623,13 +1343,13 @@
                 Digital<span class="text-orange">Kita</span>
               </a>
               <p class="text-ink-muted text-sm font-light leading-relaxed">
-                Web & App Development Studio based in Yogyakarta. We build
-                digital products that actually work.
+                Web & App Development Studio based in Klaten, Jawa Tengah. We
+                build digital products that actually work.
               </p>
               <!-- Social -->
               <div class="flex gap-4 mt-2">
                 <a
-                  href="https://www.instagram.com/digital.kita_/"
+                  href="#"
                   aria-label="Instagram"
                   class="w-9 h-9 rounded-lg border border-white/8 bg-white/5 flex items-center justify-center text-ink-muted hover:text-orange hover:border-orange/30 transition-all">
                   <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -1733,11 +1453,13 @@
                 </h4>
                 <div class="flex flex-col gap-2 text-sm">
                   <a
-                    href="mailto:digital.kita15@gmail.com"
+                    href="mailto:hello@digitalkita.id"
                     class="text-ink-muted font-light hover:text-orange transition-colors"
-                    >digital.kita15@gmail.com</a
+                    >hello@digitalkita.id</a
                   >
-                  <span class="text-ink-muted font-light">Yogyakarta</span>
+                  <span class="text-ink-muted font-light"
+                    >Klaten, Jawa Tengah</span
+                  >
                   <span class="text-ink-muted font-light">Indonesia 🇮🇩</span>
                   <a
                     href="contact.html"
@@ -1896,16 +1618,16 @@
         });
       });
 
-      // Navbar shrink → floating pill on scroll
+      // Navbar — header-2 style pill on scroll
       ScrollTrigger.create({
         start: "top -80",
         onUpdate: (self) => {
           const nav = document.getElementById("navbar");
           if (self.progress > 0) {
-            nav.classList.add("shrunk");
+            nav.classList.add("scrolled");
             nav.classList.remove("border-b", "border-white/5");
           } else {
-            nav.classList.remove("shrunk");
+            nav.classList.remove("scrolled");
             nav.classList.add("border-b", "border-white/5");
           }
         },
